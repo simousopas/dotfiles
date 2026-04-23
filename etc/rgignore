@@ -1,0 +1,11 @@
+bun.lock
+package-lock.json
+.git/
+.vscode/
+.zed/
+node_modules/
+*.eot
+*.svg
+*.ttf
+*.woff
+*.woff2

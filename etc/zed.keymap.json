@@ -1,0 +1,21 @@
+[
+	{
+		"context": "Editor && (showing_code_actions || showing_completions)",
+		"bindings": {
+			"shift-tab": "editor::ContextMenuPrevious",
+			"tab": "editor::ContextMenuNext"
+		}
+	},
+	{
+		"context": "Editor && (vim_mode == normal || vim_mode == visual)",
+		"bindings": {
+			"shift-h": "pane::ActivatePreviousItem",
+			"shift-l": "pane::ActivateNextItem",
+			"space h": "workspace::ActivatePaneLeft",
+			"space l": "workspace::ActivatePaneRight",
+			"space k": "workspace::ActivatePaneUp",
+			"space j": "workspace::ActivatePaneDown"
+
+		}
+	}
+]

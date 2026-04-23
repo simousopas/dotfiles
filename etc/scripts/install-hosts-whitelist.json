@@ -1,0 +1,19 @@
+{
+	"_comment1": "Use sed expressions to detect and ignore domains.",
+	"_comment2": "Example: .*[[:blank:]|\\.]instagram\\.com$",
+
+	"shared": [
+	],
+	"shared_optional": [
+	],
+	"specific": {
+		"macbookair-m4": [],
+		"macbookneo-a18pro-alpha": [],
+		"macbookpro16-9980hk": [],
+		"macbookpro16-9980hk-dremio": [],
+		"macbookpro16-m2max": [],
+		"macbookpro16-m3max": [],
+		"macbookpro16-m3max-dremio": [],
+		"macmini-m1": []
+	}
+}

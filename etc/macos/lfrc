@@ -1,0 +1,329 @@
+# Documentation: https://pkg.go.dev/github.com/gokcehan/lf
+# Repository: https://github.com/gokcehan/lf
+# Wiki: https://github.com/gokcehan/lf/wiki
+
+cmd archive ${{
+	set -f
+
+	archive="$1"
+	case "$archive" in
+		*.7z) archive_ext="7z" ;;
+		*.tar) archive_ext="tar" ;;
+		*.tar.bz2) archive_ext="tar.bz2" ;;
+		*.tar.gz) archive_ext="tar.gz" ;;
+		*.tar.xz) archive_ext="tar.xz" ;;
+		*.tar.zst) archive_ext="tar.zst" ;;
+		*.bz2) archive_ext="tbz2" ;;
+		*.tgz) archive_ext="tgz" ;;
+		*.txz) archive_ext="txz" ;;
+		*.zip) archive_ext="zip" ;;
+	esac
+	[ -z "$archive_ext" ] && exit
+
+	archive_ext_len=${#archive_ext}
+	archive_name=${archive:0:$((${#archive} - $archive_ext_len - 1))}
+	archive_full="$PWD/${archive}"
+
+	[ "$archive_ext" = "tar" ] &&
+		archive_tar="$PWD/$archive" ||
+		archive_tar="$PWD/${RANDOM}.tar"
+
+
+	if [ "$archive_ext" = "7z" ]; then
+		IFS="$(printf '\n\t')"; for item in $fx
+		do
+			cd $(dirname "$item")
+			7zz a "$archive_full" ./$(basename "$item")
+		done
+
+	elif [ "$archive_ext" = "zip" ]; then
+		IFS="$(printf '\n\t')"; for item in $fx
+		do
+			cd $(dirname "$item")
+			zip --recurse-path "$archive_full" ./$(basename "$item")
+		done
+
+	else
+		IFS="$(printf '\n\t')"; for item in $fx
+		do
+			cd $(dirname "$item") &&
+			if [ -f "$archive_tar" ]; then
+				tar --update --file "$archive_tar" $(basename "$item")
+			else
+				tar --create --file "$archive_tar" $(basename "$item")
+			fi
+		done
+
+		if [ "$archive_ext" = "tar.bz2" ] || [ "$archive_ext" = "tbz2" ]; then
+			pbzip2 --stdout "$archive_tar" >"$archive_full"
+			rm "$archive_tar"
+
+		elif [ "$archive_ext" = "tar.gz" ] || [ "$archive_ext" = "tgz" ]; then
+			pigz --stdout "$archive_tar" >"$archive_full"
+			rm "$archive_tar"
+
+		elif [ "$archive_ext" = "tar.xz" ] || [ "$archive_ext" = "txz" ]; then
+			xz --threads=0 --stdout "$archive_tar" >"$archive_full"
+			rm "$archive_tar"
+
+		elif [ "$archive_ext" = "tar.zst" ]; then
+			zstd --threads=0 --stdout "$archive_tar" >"$archive_full"
+			rm "$archive_tar"
+		fi
+	fi
+}}
+
+cmd bookmark_add ${{
+	grep -qxF "$f" "$LF_BOOKMARKS_PATH" || {
+		echo "$f" >> "$LF_BOOKMARKS_PATH" &&
+		lf -remote "send $id echo bookmarked: $f";
+	}
+}}
+
+cmd bookmark_clear ${{
+	truncate --no-create --size 0 "$LF_BOOKMARKS_PATH" &&
+	lf -remote "send $id echo Bookmarks cleared."
+}}
+
+cmd bookmark_jump ${{
+	set -f
+	res="$(cat "$LF_BOOKMARKS_PATH" | fzf --with-nth=1)"
+	lf -remote "send $id cd \"$(eval echo $res)\""
+}}
+
+cmd bulk_rename ${{
+	old="$(mktemp)"
+	new="$(mktemp)"
+	if [ -n "$fs" ]; then
+		fs="$(basename -a $fs)"
+	else
+		fs="$(ls)"
+	fi
+
+	printf '%s\n' "$fs" >"$old"
+	printf '%s\n' "$fs" >"$new"
+	env SKIP_LOADING_PLUGINS=yes nvim -n "$new"
+
+	[ "$(wc -l < "$new")" -ne "$(wc -l < "$old")" ] && exit
+	paste "$old" "$new" | while IFS= read -r names; do
+		src="$(printf '%s' "$names" | cut -f1)"
+		dst="$(printf '%s' "$names" | cut -f2)"
+		if [ "$src" = "$dst" ] || [ -e "$dst" ]; then
+			continue
+		fi
+		mv -- "$src" "$dst"
+	done
+
+	rm -- "$old" "$new"
+	lf -remote "send $id unselect"
+}}
+
+cmd cd_quit ${{
+	echo "$PWD" > "$TMPDIR/lfcd"
+	lf -remote "send $id quit"
+}}
+
+cmd cd_selection &{{
+	if [ -d "$f" ]; then
+		lf -remote "send $id cd \"$f\"" &&
+		lf -remote "send $id \$$SHELL" &&
+		lf -remote "send $id cd \"$f/..\""
+	else
+		lf -remote "send $id echo No directory currently selected."
+	fi
+}}
+
+cmd cd_selection_quit ${{
+	if [ -d "$f" ]; then
+		echo "$f" > "$TMPDIR/lfcd" &&
+		lf -remote "send $id quit"
+	else
+		lf -remote "send $id echo No directory currently selected."
+	fi
+}}
+
+cmd copy_clipboard ${{
+	# NOTE: It is possible to copy multiple files at once but it gets complicated.
+	# https://apple.stackexchange.com/questions/339201/how-do-i-copy-multiple-files-to-macoss-clipboard-programmatically/339436#339436
+
+	if [ -d "$f" ]; then
+		osascript -e{'on run{a}','set the clipboard to posix file a',end} \
+		"$(greadlink -f -- "$f")" &&
+		lf -remote "send $id echo Copied to clipboard: $f"
+
+	elif [ -f "$f" ]; then
+		cat "$f" | pbcopy &&
+		lf -remote "send $id echo Copied to clipboard: $f"
+
+	else
+		lf -remote "send $id echo Not a file or directory: $f"
+	fi
+}}
+
+
+cmd create ${{
+	input_file=$(mktemp "${TMPDIR}lf.create.XXX")
+	echo "# One file or directory per line." >> "$input_file"
+	echo "# Empty lines or lines that start with # are ignored." >> "$input_file"
+	echo "# Examples:" >> "$input_file"
+	echo "# file" >> "$input_file"
+	echo "# dir/" >> "$input_file"
+	echo "# dir/inside/dir/" >> "$input_file"
+	echo "# dir/with/file" >> "$input_file"
+	echo "" >> "$input_file"
+	env SKIP_LOADING_PLUGINS=yes nvim -n -i NONE "$input_file" "+normal G"
+
+	selection_name=""
+	while IFS= read -r line || [[ -n "$line" ]]; do
+		[ "${line:0:1}" = "#" ] && continue
+		selection_name="${line%%/*}"
+
+		if [ "${line:(-1)}" = "/" ]; then
+			mkdir -p "$PWD/${line:?}"
+		else
+			if [[ "$line" =~ "/"  ]]; then
+				path="$PWD/${line%/*}"
+				file="${line##*/}"
+				mkdir -p "$path" && touch "$path/$file"
+			else
+				touch "$PWD/$line"
+			fi
+		fi
+	done < "$input_file"
+	rm -f "$input_file"
+	[ -n "$selection_name" ] && lf -remote "send $id select \"$selection_name\""
+
+	exit 0
+}}
+
+cmd edit ${{
+	env SKIP_LOADING_PLUGINS=yes nvim -n -i NONE "$f"
+}}
+
+cmd fzf_cd ${{
+	set -f
+	sel=$(
+		fd --hidden --strip-cwd-prefix --threads 2 --type d --type f |
+		fzf --layout=reverse --preview 'lfpreview {}' --scrollbar '▌▐'
+	)
+
+	if [ -d "$sel" ]; then
+		name=$(basename "$sel")
+		[[ $name = .* ]] && lf -remote "send $id set hidden"
+		lf -remote "send $id cd \"$sel\""
+	else
+		name=$(basename "$sel")
+		[[ $name = .* ]] && lf -remote "send $id set hidden"
+		lf -remote "send $id select \"$sel\""
+	fi
+}}
+
+cmd fzf_search ${{
+	RG_PREFIX=(rg --color=always --column --hidden --line-number --no-heading
+		--ignore-file "$XDG_CONFIG_HOME/rg/ignore" --no-mmap --smart-case
+		--threads=2 --trim '\\s+')
+	FZF_DEFAULT_COMMAND="${RG_PREFIX[@]}"
+
+	res=$(
+		fzf --ansi --bind "change:reload:$FZF_DEFAULT_COMMAND || true" \
+		--border=rounded --cycle --delimiter ':' --height=100% \
+		--nth '2..' --layout=reverse --tabstop=4 --no-scrollbar \
+		--tiebreak=chunk,length,begin \
+		--preview 'bat --color=always {1} --highlight-line {2} '\
+'--style="numbers,changes" --terminal-width=$COLUMNS --wrap never' \
+		--preview-window 'right,60%,border-none,nowrap,+{2}+3/3,~0' --scrollbar '▌▐'
+	)
+
+	file=$(echo "$res" | awk -F ':' '{ print $1}')
+	line=$(echo "$res" | awk -F ':' '{ print $2}')
+
+	if [ -n "$file" ] && [ -n "$line" ]; then
+		name=$(basename "$file")
+		[[ $name = .* ]] && lf -remote "send $id set hidden"
+		lf -remote "send $id select \"$file\""
+		env SKIP_LOADING_PLUGINS=yes nvim -n -i NONE "+${line}" "${file}"
+
+	elif [ -n "$file" ]; then
+		name=$(basename "$file")
+		[[ $name = .* ]] && lf -remote "send $id set hidden"
+		lf -remote "send $id select \"$file\""
+	fi
+}}
+
+cmd pager ${{
+
+	case "$f" in
+		*.7z)
+			7zz l "$f" | $NVIMPAGER
+			;;
+		*.pdf)
+			pdftotext "$f" - | $NVIMPAGER
+			;;
+		*.plist)
+			plutil -convert xml1 -o - "$f" | $NVIMPAGER
+			;;
+		*.rar)
+			unrar l "$f" | $NVIMPAGER
+			;;
+		*.tar*)
+			tar tf "$f" | $NVIMPAGER
+			;;
+		*.zip)
+			unzip -l "$f" | $NVIMPAGER
+			;;
+		*)
+			if [ -f "$f" ]; then
+				$NVIMPAGER "$f"
+			elif [ -d "$f" ]; then
+				ls -la "$f" | $NVIMPAGER
+			fi ;;
+	esac
+}}
+
+cmd secure_rm ${{
+    source "$HOME/.bash_profile"
+    IFS=$'\n'
+	if [ -n "$fx" ]; then
+		for item in $fx; do secrm "$item"; done
+	else
+		secrm "$f"
+	fi
+}}
+
+cmd select_all :unselect; invert
+
+map . set hidden!
+map - jump-prev
+map _ jump-next
+map f
+map fb push :bookmark_jump<enter>
+map ff push :fzf_cd<enter>
+map fs push :fzf_search<enter>
+map a push :archive<space>
+map b mark-load
+map e push :edit<enter>
+map i push :pager<enter>
+map o push :cd_selection<enter>
+map q quit
+map v
+map x delete
+map A push :select_all<enter>
+map B push :bookmark_add<enter>
+map C push :bookmark_clear<enter>
+map N push :create<enter>
+map O push :cd_selection_quit<enter>
+map R push :bulk_rename<enter>
+map W push :cd_quit<enter>
+map X secure_rm
+map Y push :copy_clipboard<enter>
+
+# set cursoractivefmt "\033[7;37m"
+set cursorpreviewfmt "\033[7m"
+set errorfmt "\033[48;5;1m\033[38;5;0m"
+set icons
+set preview
+set previewer lfpreview
+set promptfmt "\033[32;1m%u@%h\033[0m:\033[34;1m%d\033[0m"
+set ratios 2:4
+set shell bash
+set wrapscroll

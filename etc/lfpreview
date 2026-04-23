@@ -1,0 +1,29 @@
+#!/bin/dash
+
+other () {
+	local f="$1"
+	local file_type="$(file --brief "$f")"
+	local mime_type="$(file --mime "$f" | pcre2grep -o1 ': (.+)')"
+	local stream_type="$(echo $mime_type | pcre2grep -o1 'charset=(\w+)')"
+
+	if [ "$stream_type" = "binary" ]; then
+		echo "file: $file_type"
+		echo "mime: $mime_type"
+	else
+		bat --color=always --plain "$f"
+	fi
+}
+
+case "$1" in
+	*.tar.bz2) tar tf "$1";;
+	*.tar.gz) tar tf "$1";;
+	*.tar.xz) tar tf "$1";;
+	*.tar.zst) tar tf "$1";;
+	*.tbz2) tar tf "$1";;
+	*.tgz) tar tf "$1";;
+	*.txz) tar tf "$1";;
+	*.zip) unzip -l "$1";;
+	*.rar) unrar l "$1";;
+	*.7z) 7zz l "$1";;
+	*) other "$1";;
+esac

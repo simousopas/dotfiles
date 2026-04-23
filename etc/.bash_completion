@@ -1,0 +1,3 @@
+for completion_file in ~/.bash_completion.d/* ; do
+	[ -f "$completion_file" ] && . "$completion_file"
+done
