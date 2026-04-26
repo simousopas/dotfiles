@@ -85,7 +85,7 @@
 	"theme": {
 		"mode": "system",
 		"light": "VSCode Light+",
-		"dark": "Ayu Dark"
+		"dark": "VSCode Dark Modern"
 	},
 	"ui_font_size": 14,
 	"use_smartcase_search": true,
