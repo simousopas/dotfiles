@@ -84,7 +84,7 @@
 	"show_wrap_guides": true,
 	"theme": {
 		"mode": "system",
-		"light": "Gruvbox Dark Soft",
+		"light": "VSCode Light+",
 		"dark": "Ayu Dark"
 	},
 	"ui_font_size": 14,
