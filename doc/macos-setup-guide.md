@@ -26,8 +26,8 @@ previous versions too.
   - Enable all gestures.
 - Configure _Network_
   - Manually set DNS servers for all interfaces
-    - IPv4: `1.1.1.1` and `1.0.0.1`.
-    - IPv6: `2606:4700:4700::1111` and `2606:4700:4700::1001`.
+    - IPv4: `1.1.1.1` and `1.0.0.1`
+    - IPv6: `2606:4700:4700::1111` and `2606:4700:4700::1001`
   - Disable Thunderbolt Bridge.
 - Configure _Battery_
   - Set _Low Power Mode_ to _Only on Battery_.
@@ -111,14 +111,14 @@ previous versions too.
   - Add _Documents_.
   - Set both _Documents_ and _Downloads_ to display as folder and view as list.
 - Configure hostname, create folders and set Spotlight's privacy list
-  - `sudo scutil --set HostName <hostname>.local`.
-  - `sudo scutil --set LocalHostName <hostname>`.
-  - `sudo scutil --set ComputerName <hostname>`.
-  - `mkdir -p ~/{Developer,Downloads/Safari,.cache,.config,.local,.ssh}`.
+  - `sudo scutil --set HostName <hostname>.local`
+  - `sudo scutil --set LocalHostName <hostname>`
+  - `sudo scutil --set ComputerName <hostname>`
+  - `mkdir -p ~/{Developer,Downloads/Safari,.cache,.config,.local,.ssh}`
   - Add `~/Developer` to the sidebar and set its layout.
   - Add the following folders to Spotlight's privacy list
-    - `/opt`, `/usr/local`, `/Library`, `/System/Library/Frameworks`.
-    - `~/{Developer,Documents,Downloads,Library,.cache,.config,.local,.ssh}`.
+    - `open /{opt,usr/local,Library,System/Library/Frameworks}`
+    - `open ~/{Developer,Documents,Downloads,Library,.cache,.config,.local,.ssh}`
 - Configure _Contacts_ app
   - _View_, _Hide Lists_.
   - Show First Name: _Before last name_.
@@ -163,7 +163,7 @@ previous versions too.
 
 ## Development Environment and Installation
 - Disable GateKeeper
-  - `sudo spctl --global-disable`.
+  - `sudo spctl --global-disable`
   - Go to _Privacy & Security_ and enable _Allow applications from Anywhere_.
 - Manually install the latest Command Line Tools from
   [Apple Developer](https://developer.apple.com/download/all).
@@ -183,14 +183,14 @@ previous versions too.
     - Enable the _Parallel downloading_ feature in `brave://flags`.
     - Delete all browsing data.
     - Configure microphone, camera and desktop access in `https://talk.brave.com`.
-- Exit all apps run `bash etc/macos/scripts/toggle-application-lock.sh`.
+- Exit all apps run `bash etc/macos/scripts/toggle-application-lock.sh`
 
 ## Wrap up
 - Review the settings of iCloud, Login Items and Siri Suggestions.
 - Press `Cmd+Shift+5`, pick _Options_ and set `~/Documents/Captures` as the
   storage location.
 - [Disable SIP](https://developer.apple.com/documentation/security/disabling-and-enabling-system-integrity-protection).
-- Disable macOS services: `bash etc/macos/scripts/disable-services.sh`.
-- Open _Ghostty_ and run `purge all`.
+- Disable macOS services: `bash etc/macos/scripts/disable-services.sh`
+- Open _Ghostty_ and run `purge all`
 - Reboot and let the computer settle for some hours. Reboot once more after.
 
