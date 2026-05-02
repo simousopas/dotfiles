@@ -45,9 +45,10 @@ previous versions too.
 - Open updated apps and make sure they're working as intended.
 - Update Brave's Content Filters list.
 - Update VSCode's plugins.
+- Review the settings of iCloud, Login Items, Siri Suggestions and
+  Notifications.
 
 ## Wrap up
-- Open all updated apps and confirm they're working as intended.
 - Lock apps: `bash etc/macos/scripts/toggle-application-lock.sh`
 - Disable SIP in case it got enabled
   - `csrutil status`.
