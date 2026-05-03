@@ -72,7 +72,7 @@ if [ "$target" == "shell" ]; then
 elif [ "$target" == "tools" ]; then
 
 	if [ -z "$version" ]; then
-		version="100.15.0"
+		version="100.16.1"
 	fi
 
 	if [ "$system" = "Darwin" ]; then
