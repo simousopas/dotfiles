@@ -17,7 +17,7 @@ ln -sf "$HOME/.bash_profile" "$HOME/.bashrc"
 # shellcheck disable=SC1091
 source "$HOME/.bash_profile" || true
 
-expected_hostname="macbookneo-a18pro-alpha"
+expected_hostname="macbookneo-a18pro"
 if [ "$expected_hostname" != "$SHORT_HOSTNAME" ]; then
 	log_warning ">>> This configuration script belongs to another host: $expected_hostname".
 	log_warning ">>> The current host is: $SHORT_HOSTNAME"

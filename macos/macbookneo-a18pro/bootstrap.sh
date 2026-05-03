@@ -28,7 +28,7 @@ if [ -s "$bootstrap_finished" ]; then
 	exit 1
 fi
 
-expected_hostname="macbookneo-a18pro-alpha"
+expected_hostname="macbookneo-a18pro"
 nice_hostname="${HOSTNAME/%.local/}"
 if [ "$expected_hostname" != "$nice_hostname" ]; then
 	log_warning ">>> This bootstrap script belongs to another host: $expected_hostname".
