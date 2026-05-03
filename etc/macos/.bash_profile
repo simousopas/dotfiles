@@ -120,6 +120,15 @@ fi
 # USER FUNCTIONS #
 # ============== #
 
+clear_quarantine () {
+	if [ -z "$1" ]; then
+		xattr -dr com.apple.quarantine "$HOME/Documents"
+		xattr -dr com.apple.quarantine "$HOME/Downloads"
+	else
+		xattr -dr com.apple.quarantine "$1"
+	fi
+}
+
 if [[ "$(type -ft gpg)" = "file" ]]; then
 # Decrypt password-encrypted file.
 gpg_dec_file () {

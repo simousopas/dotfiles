@@ -93,6 +93,16 @@ end
 # USER FUNCTIONS #
 # ============== #
 
+function clear_quarantine --description "Recursively remove quarantine attributes from ~/{Documents,Downloads}."
+	set --local arg "$argv[1]"
+	if [ -z "$arg" ]
+		xattr -dr com.apple.quarantine "$HOME/Documents"
+		xattr -dr com.apple.quarantine "$HOME/Downloads"
+	else
+		xattr -dr com.apple.quarantine "$arg"
+	end
+end
+
 if type -q gpg
 function gpg_dec_file --description "Decrypt password-encrypted file."
 	set --local src "$argv[1]"
