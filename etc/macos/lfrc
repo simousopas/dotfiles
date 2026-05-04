@@ -323,7 +323,7 @@ set errorfmt "\033[48;5;1m\033[38;5;0m"
 set icons
 set preview
 set previewer lfpreview
-set promptfmt "\033[34;1m→ %d\033[0m"
+set promptfmt "\033[0m%d"
 set ratios 2:4
 set shell bash
 set truncatechar "…"
