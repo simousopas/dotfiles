@@ -39,6 +39,9 @@ previous versions too.
   - Update all outdated formulae and apps: `brew upgrade --greedy`
   - Unlink specific formulae: `brew unlink python@3.14 openssl@3`
   - Purge the cache: `brew cleanup [--dry-run]`
+- Update Mise plugins and tools
+  - Update all plugins: `mise plugins upgrade`
+  - Update all tools: `mise upgrade`
 - Update Python packages
   - List outdated packages: `pip3 list --user --outdated`
   - Update specific package: `pip3 install --user --upgrade <package>`
