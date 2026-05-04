@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# NOTE: This script is specially targeted for macOS physicall hosts.
+# NOTE: This script is specially targeted for macOS physical hosts.
 # It contains the smallest set of macOS services to be disabled when compared to
 # `disable-services-oclp.sh` or `disable-services-vm.sh`.
 
@@ -206,7 +206,12 @@ system_services=(
 	com.apple.rtcreportingd
 	# com.apple.screensharing
 	# com.apple.security.cloudkeychainproxy3
-	com.apple.security.syspolicy
+
+	# NOTE: Disabling syspolicy will save some RAM and specially CPU time during
+	# login and app launch. However files like PDFs and pictures are quarantined
+	# by default forcing the user to clear the quarantine attribute recurrently.
+	# com.apple.security.syspolicy
+
 	com.apple.siri.morphunassetsupdaterd
 	com.apple.siriinferenced
 	com.apple.softwareupdated

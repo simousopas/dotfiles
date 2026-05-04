@@ -1,14 +1,13 @@
 # macOS maintenance guide
-This guide targets macOS Tahoe but most of the settings are applicable to
-previous versions too.
+This guide targets macOS Tahoe but most of the guide, if not all of it, is
+applicable to previous versions too.
 
 ## Preparation
 - Check if there any updates for [MongoDB Tools](https://github.com/mongodb/mongo-tools/tags)
   and update `etc/scripts/install-mongo-utils.sh`.
-- Enable `softwareupdated` and `syspolicyd`.
+- Enable `softwareupdated`.
   ```
   sudo launchctl enable system/com.apple.mobile.softwareupdated
-  sudo launchctl enable system/com.apple.security.syspolicy
   sudo launchctl enable system/com.apple.softwareupdated
   ```
 - Reboot.
@@ -56,10 +55,9 @@ previous versions too.
 - Disable SIP in case it got enabled
   - `csrutil status`.
   - [Disable SIP](https://developer.apple.com/documentation/security/disabling-and-enabling-system-integrity-protection).
-- Disable `softwareupdated` and `syspolicyd`.
+- Disable `softwareupdated`.
   ```
   sudo launchctl disable system/com.apple.mobile.softwareupdated
-  sudo launchctl disable system/com.apple.security.syspolicy
   sudo launchctl disable system/com.apple.softwareupdated
   ```
 - Save any configuration changes: `bash etc/macos/scripts/export-defaults.sh`
