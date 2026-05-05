@@ -7,13 +7,7 @@
 	"shared_optional": [
 	],
 	"specific": {
-		"macbookair-m4": [],
 		"macbookneo-a18pro": [],
-		"macbookpro16-9980hk": [],
-		"macbookpro16-9980hk-dremio": [],
-		"macbookpro16-m2max": [],
-		"macbookpro16-m3max": [],
-		"macbookpro16-m3max-dremio": [],
-		"macmini-m1": []
+		"macbookpro-m2max": []
 	}
 }
