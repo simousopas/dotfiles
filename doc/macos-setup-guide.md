@@ -52,7 +52,8 @@ previous versions too.
   - Set the top-right corner to show the Desktop when hit together with `Cmd`.
 - Disable all Mac/iPad integrations and enable Night Shift.
 - Configure _Menu Bar_ items.
-- Disable all Spotlight integrations and results except for _Apps_.
+- Disable all Spotlight integrations and results except for _Calculator_ and
+  _Apps_.
 - Set a static wallpaper.
 - Set _Alert volume_ to 50% and disable the startup sound.
 - Set a password to be required 5 seconds after the screen turns off.
