@@ -385,7 +385,7 @@ purge () {
 	for item in "$@"; do
 		if [ "$item" == "all" ]; then
 			echo "Purging all items, except for the cache ..."
-			purge bash clipboard nvim zsh
+			purge bash clipboard nvim safari zsh
 
 		elif [ "$item" == "bash" ]; then
 			echo "Purging Bash ..."
