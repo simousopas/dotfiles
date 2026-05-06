@@ -20,10 +20,10 @@ previous versions too.
   - Under _Zoom_, enable _Use keyboard shortcuts to zoom_.
   - Under _Pointer Control_, _Trackpad Options_, enable _Three Finger Drag_ and
     increase _Scroll speed_.
-- Disable Software Updates.
 - Configure _Mouse_/_Trackpad_
   - Increase mouse's tracking speed and set trackpad's to the maximum.
   - Enable all gestures.
+- Disable Software Updates.
 - Configure _Network_
   - Manually set DNS servers for all interfaces
     - IPv4: `1.1.1.1` and `1.0.0.1`
@@ -172,10 +172,11 @@ previous versions too.
 - `git clone git@github.com:simousopas/dotfiles` and  run `./bootstrap.sh`.  
   Manual password input will be required a couple of times during the process.
 - Add _Developer Tools_ permission to _Ghostty_.
+- Import the `tokyo-night` profile for Apple Terminal and set it as the default.
 - Configure 3rd-party apps
+  - Start by configuring _BetterDisplay_, _Mac Mouse Fix_ and _AltTab_.
   - Disable automatic updates for all apps whenever it's possible.
   - Enable _Voice Isolation_ for all apps that need access to the microphone.
-  - Start by configuring _BetterDisplay_, _Mac Mouse Fix_ and _AltTab_.
   - Configure Docker
     - Review startup settings, resources, fs permissions and notifications.
     - Install the  _Disk Usage_, _Logs Explorer_ and _Resource Usage_ extensions.
