@@ -27,6 +27,7 @@
 		"svelte": true,
 		"toml": true,
 		"typst": true,
+		"vscode-dark-modern": true,
 		"xml": true,
 		"zig": true
 	},
