@@ -41,10 +41,10 @@ log_info "\t >>> Installing dotfiles"
 
 
 log_info "\t >>> Configuring the Desktop and keyboard"
-defaults write com.apple.dock autohide-delay -int 0
-defaults write com.apple.dock autohide-time-modifier -float 0.30
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+defaults write com.apple.dock autohide-delay -int 0
+defaults write com.apple.dock autohide-time-modifier -float 0.30
 defaults write com.apple.loginwindow TALLogoutSavesState -bool false
 defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
 defaults write -g ApplePressAndHoldEnabled -bool false
@@ -118,7 +118,7 @@ ismc completion bash >"$HOME/.bash_completion.d/iscm.sh"
 ismc completion fish >"$XDG_CONFIG_HOME/fish/completions/ismc.fish"
 
 
-log_info "\t >>> Installing VSCode plugins"
+log_info "\t >>> Installing VSCode plugins ..."
 source "$root_dir/etc/scripts/install-vscode-plugins.sh" --silent
 
 
@@ -139,6 +139,7 @@ echo "UUID=DC798778-543D-396B-A11F-2EC42F3500F9 none msdos ro,noauto" |
 	sudo tee -a /etc/fstab >/dev/null
 
 
+log_info "\t >>> Configuring Homebrew's environment"
 if ! grep -q "$HOMEBREW_PREFIX/bin/bash" /etc/shells; then
 	log_info "\t >>> Setting Homebrew's bash as the default shell"
 	echo "$HOMEBREW_PREFIX/bin/bash" | sudo tee -a /etc/shells
@@ -146,19 +147,20 @@ if ! grep -q "$HOMEBREW_PREFIX/bin/bash" /etc/shells; then
 	chsh -s "$HOMEBREW_PREFIX/bin/bash" "$(whoami)"
 fi
 
-log_info "\t >>> Setting boot preferences ..."
-# sudo nvram BootPreference=%00 -> Disables auto-boot when opening the lid or/and when connecting to power.
-# sudo nvram BootPreference=%01 -> Disables auto-boot when opening the lid, only.
-# sudo nvram BootPreference=%02 -> Disables auto-boot when connecting to power, only.
-# sudo nvram -d BootPreference -> Restore factory behavior.
-sudo nvram BootPreference=%01
-
 if [ -f /etc/paths.d/homebrew ]; then
 	# Don't want /etc/paths.d/homebrew making any changes to $PATH.
 	# Homebrew's envvars will be explicitly set in .bash_profile and config.fish
 	log_info "\t >>> Removing /etc/paths.d/homebrew ..."
 	sudo rm /etc/paths.d/homebrew
 fi
+
+
+log_info "\t >>> Setting boot preferences ..."
+# sudo nvram BootPreference=%00 -> Disables auto-boot when opening the lid or/and when connecting to power.
+# sudo nvram BootPreference=%01 -> Disables auto-boot when opening the lid, only.
+# sudo nvram BootPreference=%02 -> Disables auto-boot when connecting to power, only.
+# sudo nvram -d BootPreference -> Restore factory behavior.
+sudo nvram BootPreference=%01
 
 
 echo "ok" > "$bootstrap_finished"

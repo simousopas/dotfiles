@@ -28,7 +28,7 @@ if [ -s "$bootstrap_finished" ]; then
 	exit 1
 fi
 
-expected_hostname="macbookpro-m2max"
+expected_hostname="macmini-m1"
 nice_hostname="${HOSTNAME/%.local/}"
 if [ "$expected_hostname" != "$nice_hostname" ]; then
 	log_warning ">>> This bootstrap script belongs to another host: $expected_hostname".
@@ -45,6 +45,7 @@ defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 defaults write com.apple.dock autohide-delay -int 0
 defaults write com.apple.dock autohide-time-modifier -float 0.30
+defaults write com.apple.dock showAppExposeGestureEnabled -bool true
 defaults write com.apple.loginwindow TALLogoutSavesState -bool false
 defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
 defaults write -g ApplePressAndHoldEnabled -bool false
@@ -78,10 +79,9 @@ brew unlink openssl@3
 
 log_info "\t >>> Installing Homebrew apps ..."
 homebrew_casks=(
-	alt-tab betterdisplay brave-browser bruno coconutbattery dbeaver-community
-	font-jetbrains-mono-nerd-font fork ghostty iina keyboardcleantool
-	mac-mouse-fix obs spotify transmission utm visual-studio-code visualdiffer
-	zed
+	alt-tab betterdisplay brave-browser bruno dbeaver-community
+	font-jetbrains-mono-nerd-font fork ghostty iina mac-mouse-fix obs spotify
+	transmission visual-studio-code visualdiffer zed
 )
 brew install --cask "${homebrew_casks[@]}"
 
@@ -141,14 +141,6 @@ if [ -f /etc/paths.d/homebrew ]; then
 	log_info "\t >>> Removing /etc/paths.d/homebrew ..."
 	sudo rm /etc/paths.d/homebrew
 fi
-
-
-log_info "\t >>> Setting boot preferences ..."
-# sudo nvram BootPreference=%00 -> Disables auto-boot when opening the lid or/and when connecting to power.
-# sudo nvram BootPreference=%01 -> Disables auto-boot when opening the lid, only.
-# sudo nvram BootPreference=%02 -> Disables auto-boot when connecting to power, only.
-# sudo nvram -d BootPreference -> Restore factory behavior.
-sudo nvram BootPreference=%01
 
 
 echo "ok" > "$bootstrap_finished"
