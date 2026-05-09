@@ -106,6 +106,7 @@ user_services=(
 	# com.apple.rapportd-user
 	# com.apple.remindd
 	com.apple.replicatord
+	com.apple.ReportCrash
 	# com.apple.routined
 	# com.apple.Safari.History
 	# com.apple.Safari.PasswordBreachAgent
