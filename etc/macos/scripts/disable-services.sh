@@ -196,6 +196,7 @@ system_services=(
 	com.apple.itunescloudd
 	# com.apple.locationd
 	com.apple.logd
+	com.apple.logd_helper
 	# com.apple.ManagedClient.cloudconfigurationd
 	# com.apple.mobile.obliteration
 	com.apple.mobile.softwareupdated
