@@ -39,7 +39,7 @@
 			"id": "screen_capture",
 			"versioned_id": "screen_capture",
 			"settings": {
-				"display_uuid": "4C720FEC-3B8D-4EA4-9841-A8382B2DC6A2"
+				"display_uuid": "2256C64B-670A-4855-9BF5-5AA26E997F4B"
 			},
 			"mixers": 255,
 			"sync": 0,
@@ -70,8 +70,8 @@
 			"id": "macos-avcapture",
 			"versioned_id": "macos-avcapture",
 			"settings": {
-				"device": "0x2220000046d082d",
 				"device_name": "HD Pro Webcam C920",
+				"device": "0x2220000046d082d",
 				"preset": "AVCaptureSessionPreset640x480"
 			},
 			"mixers": 255,
@@ -317,7 +317,7 @@
 	"saved_projectors": [],
 	"preview_locked": false,
 	"scaling_enabled": false,
-	"scaling_level": -21,
+	"scaling_level": -20,
 	"scaling_off_x": 0.0,
 	"scaling_off_y": 0.0,
 	"virtual-camera": {
