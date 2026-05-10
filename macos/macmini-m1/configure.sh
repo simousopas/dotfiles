@@ -37,7 +37,7 @@ mkdir -p \
 "$XDG_CONFIG_HOME"/{bat/themes,fd,fish/completions} \
 "$XDG_CONFIG_HOME"/{ghostty,git,lf,lima,mise,nvim,pip,rg,zed} \
 "$CODE"/{github,simousopas} \
-"$DOCUMENTS"/{Captures,Misc,Remote,VMs} \
+"$DOCUMENTS"/{Captures,Misc,Remote} \
 "$DOWNLOADS"/{Brave,Misc,Safari,Torrents}
 
 app_support_folder="$HOME/Library/Application Support"

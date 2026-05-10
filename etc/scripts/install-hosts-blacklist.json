@@ -13,6 +13,7 @@
 	},
 	"specific": {
 		"macbookneo-a18pro": {},
-		"macbookpro-m2max": {}
+		"macbookpro-m2max": {},
+		"macmini-m1": {}
 	}
 }
