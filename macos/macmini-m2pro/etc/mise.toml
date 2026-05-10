@@ -1,0 +1,11 @@
+[settings]
+always_keep_download = true
+disable_hints = ["registry", "outdated_bump"]
+experimental = true
+plugin_autoupdate_last_check_duration = "0"
+use_versions_host = false
+
+[tools]
+bun = ["1"]
+node = ["22"]
+zig = ["0"]
