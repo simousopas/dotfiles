@@ -163,9 +163,9 @@ cmd copy_clipboard ${{
 
 cmd create ${{
 	input_file=$(mktemp "${TMPDIR}lf.create.XXX")
-	echo "# One file or directory per line." >> "$input_file"
-	echo "# Empty lines or lines that start with # are ignored." >> "$input_file"
-	echo "# Examples:" >> "$input_file"
+	echo "# - One file or directory per line." >> "$input_file"
+	echo "# - Empty lines or lines that start with # are ignored." >> "$input_file"
+	echo "# - Working examples:" >> "$input_file"
 	echo "# file" >> "$input_file"
 	echo "# dir/" >> "$input_file"
 	echo "# dir/inside/dir/" >> "$input_file"
