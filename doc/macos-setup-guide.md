@@ -9,6 +9,7 @@ previous versions too.
 - Remove login and usage data (Aldent, Protonmail, Fastmail, Github, YouTube,
   Brave, Safari, Signal, WhatsApp, Spotify).
 - Turn off _Find My_.
+- Remove the FireVault key from iCloud using the Passwords app.
 - Unpair Bluetooth peripherals.
 - [Restore macOS firmware](https://support.apple.com/en-us/108900) on the host.
 
@@ -139,6 +140,7 @@ previous versions too.
   - Review _Notifications_ settings.
   - Set Air Pods connection strategy to _When last connected to this Mac_.
   - Rename Touch ID fingers to something more descriptive.
+- Check for updates `softwareupdate --list` and install the necessary ones.
 - Configure Safari
   - _View_, _Show Status Bar_.
   - General
@@ -195,4 +197,3 @@ previous versions too.
 - Disable macOS services: `bash etc/macos/scripts/disable-services.sh`
 - Open _Ghostty_ and run `purge all`
 - Reboot and let the computer settle for some hours. Reboot once more after.
-
