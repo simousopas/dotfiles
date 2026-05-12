@@ -221,11 +221,8 @@ system_services=(
 )
 
 echo "Disabling system services ..."
-macos_major="$(
-	system_profiler SPSoftwareDataType -detailLevel mini |
-	grep -o 'macOS \d*' |
-	grep -o '\d*')"
-if [ $((macos_major)) -ne 26 ]; then
+macos_major_version="$(sw_vers -productVersion | grep -o '^\d*')"
+if [ $((macos_major_version)) -ne 26 ]; then
 	# NOTE: Disabling the syspolicy service will save some RAM and specially CPU
 	# time during login and app launch. However files like PDFs and pictures are
 	# quarantined by default on macOS Tahoe when the service is not running,
