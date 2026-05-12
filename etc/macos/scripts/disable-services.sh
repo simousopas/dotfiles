@@ -208,12 +208,6 @@ system_services=(
 	com.apple.rtcreportingd
 	# com.apple.screensharing
 	# com.apple.security.cloudkeychainproxy3
-
-	# NOTE: Disabling syspolicy will save some RAM and specially CPU time during
-	# login and app launch. However files like PDFs and pictures are quarantined
-	# by default forcing the user to clear the quarantine attribute recurrently.
-	# com.apple.security.syspolicy
-
 	com.apple.siri.morphunassetsupdaterd
 	com.apple.siriinferenced
 	com.apple.softwareupdated
@@ -225,7 +219,21 @@ system_services=(
 	com.apple.XProtect.daemon.scan.startup
 	com.apple.XprotectFramework.PluginService
 )
+
 echo "Disabling system services ..."
+macos_major="$(
+	system_profiler SPSoftwareDataType -detailLevel mini |
+	grep -o 'macOS \d*' |
+	grep -o '\d*')"
+if [ $((macos_major)) -ne 26 ]; then
+	# NOTE: Disabling the syspolicy service will save some RAM and specially CPU
+	# time during login and app launch. However files like PDFs and pictures are
+	# quarantined by default on macOS Tahoe when the service is not running,
+	# forcing the user to clear the quarantine attribute recurrently to be able
+	# to open them. Therefore this service is left enabled for macOS Tahoe.
+	system_services+=(com.apple.security.syspolicy)
+	echo -e "\t! Added com.apple.security.syspolicy (because macOS version != 26)"
+fi
 for service in "${system_services[@]}"; do
 	echo -e "\t-> system/$service"
 	sudo launchctl disable "system/$service"
