@@ -22,12 +22,17 @@ while [[ $# -gt 0 ]]; do case $1 in
 esac; done
 
 apps_list=(
+	"ares"
+	"Azahar"
 	"Brave Browser"
+	"Bruno"
 	"Docker"
 	"Orion"
 	"Google Chrome"
+	"melonDS"
 	"OBS"
 	"Signal"
+	"SkyEmu"
 	"Spotify"
 	"Visual Studio Code"
 	"WhatsApp"
