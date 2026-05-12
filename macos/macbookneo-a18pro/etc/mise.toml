@@ -7,5 +7,4 @@ use_versions_host = false
 
 [tools]
 bun = ["1"]
-node = ["22"]
 zig = ["0"]
