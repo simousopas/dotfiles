@@ -31,13 +31,14 @@ mkdir -p \
 "$HOME"/Library/Application\ Support/Code/User \
 "$HOME"/Library/Application\ Support/com.nuebling.mac-mouse-fix \
 "$HOME"/Library/Application\ Support/obs-studio/basic \
-"$XDG_CACHE_HOME"/code/{data/User,extensions} \
 "$XDG_CACHE_HOME"/bun/{bin,cache-install,cache-transpiler,lib} \
+"$XDG_CACHE_HOME"/code/{data/User,extensions} \
+"$XDG_CACHE_HOME"/deno/bin \
 "$XDG_CACHE_HOME"/lima \
 "$XDG_CONFIG_HOME"/{bat/themes,fd,fish/completions} \
 "$XDG_CONFIG_HOME"/{ghostty,git,lf,lima,mise,nvim,pip,rg,zed} \
 "$CODE"/{github,simousopas} \
-"$DOCUMENTS"/{Captures,Misc,Remote,VMs} \
+"$DOCUMENTS"/{Captures,Misc,Remote,UTM} \
 "$DOWNLOADS"/{Brave,Misc,Safari,Torrents}
 
 app_support_folder="$HOME/Library/Application Support"

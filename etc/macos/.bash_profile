@@ -16,6 +16,9 @@ export XDG_STATE_HOME="$HOME/.local/state"
 
 export BUN_RUNTIME_TRANSPILER_CACHE_PATH="$XDG_CACHE_HOME/bun/cache-transpiler"
 export CODE="$HOME/Developer"
+export DENO_DIR="$XDG_CACHE_HOME/deno"
+export DENO_INSTALL_ROOT="$DENO_DIR/bin"
+export DENO_REPL_HISTORY="$DENO_DIR/repl_history.txt"
 export DO_NOT_TRACK=1
 export DOCUMENTS="$HOME/Documents"
 export DOWNLOADS="$HOME/Downloads"
