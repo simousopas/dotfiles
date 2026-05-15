@@ -11,6 +11,7 @@ biomejs.biome
 bmalehorn.vscode-fish
 christian-kohler.path-intellisense
 dbaeumer.vscode-eslint
+denoland.vscode-deno
 dnicolson.binary-plist
 ecmel.vscode-html-css
 esbenp.prettier-vscode
@@ -33,7 +34,6 @@ ms-vscode.makefile-tools
 ms-vscode.remote-explorer
 ms-vsliveshare.vsliveshare
 myriad-dreamin.tinymist
-oven.bun-vscode
 rebornix.toggle
 redhat.vscode-xml
 redhat.vscode-yaml
