@@ -79,7 +79,7 @@ brew unlink openssl@3
 log_info "\t >>> Installing Homebrew apps ..."
 homebrew_casks=(
 	alt-tab betterdisplay brave-browser bruno coconutbattery dbeaver-community
-	font-jetbrains-mono-nerd-font fork ghostty iina keyboardcleantool
+	font-jetbrains-mono-nerd-font fork geekbench ghostty iina keyboardcleantool
 	mac-mouse-fix obs spotify transmission utm visual-studio-code visualdiffer
 	zed
 )
