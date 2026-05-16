@@ -190,7 +190,8 @@ previous versions too.
 - Exit all apps run `bash etc/macos/scripts/toggle-application-lock.sh`
 
 ## Wrap up
-- Review the settings of iCloud, Login Items and Siri Suggestions.
+- Review the settings of iCloud, Login Items, Siri Suggestions, Spotlight and
+  Notifications.
 - Press `Cmd+Shift+5`, pick _Options_ and set `~/Documents/Captures` as the
   storage location.
 - [Disable SIP](https://developer.apple.com/documentation/security/disabling-and-enabling-system-integrity-protection).
