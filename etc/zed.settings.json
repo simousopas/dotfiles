@@ -9,6 +9,7 @@
 		"basher": true,
 		"biome": true,
 		"csv": true,
+		"deno": true,
 		"dockerfile": true,
 		"docker-compose": true,
 		"fish": true,
