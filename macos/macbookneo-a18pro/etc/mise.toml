@@ -7,4 +7,5 @@ use_versions_host = false
 
 [tools]
 deno = ["2"]
+go = ["1.26"]
 zig = ["0"]
