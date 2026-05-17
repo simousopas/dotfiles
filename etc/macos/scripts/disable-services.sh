@@ -135,6 +135,7 @@ user_services=(
 	com.apple.SoftwareUpdateNotificationManager
 	# com.apple.StatusKitAgent
 	# com.apple.storedownloadd
+	com.apple.studentd
 	com.apple.suggestd
 	# com.apple.telephonyutilities.callservicesd
 	com.apple.tipsd
