@@ -129,6 +129,8 @@ previous versions too.
   - Delete my contact card.
   - Remove the Contacts app from the Dock.
 - Connect to the Internet and configure iCloud
+  - Check for updates `softwareupdate --list` and install the necessary ones.
+  - Sign in with the Apple Account.
   - Disable sync for Stocks, Home, Wallet, Siri, Image Playground, Journal and
     Music Recognition.
   - Enable sync for _Messages in iCloud_.
@@ -140,7 +142,6 @@ previous versions too.
   - Review _Notifications_ settings.
   - Set Air Pods connection strategy to _When last connected to this Mac_.
   - Rename Touch ID fingers to something more descriptive.
-- Check for updates `softwareupdate --list` and install the necessary ones.
 - Configure Safari
   - _View_, _Show Status Bar_.
   - General
