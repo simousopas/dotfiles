@@ -119,7 +119,7 @@ ismc completion fish >"$XDG_CONFIG_HOME/fish/completions/ismc.fish"
 
 
 log_info "\t >>> Installing VSCode plugins ..."
-source "$root_dir/etc/scripts/install-vscode-plugins.sh" --silent
+source "$root_dir/etc/scripts/install-vscode-plugins.sh" --silent --plugins-list "etc/vscode.plugins.txt"
 
 
 log_info "\t >>> Ignoring Focusrite Scarlett Solo automount"

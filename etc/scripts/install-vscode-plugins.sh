@@ -23,15 +23,13 @@ esac; done
 
 vsc_data_dir="$XDG_CACHE_HOME/code/data/"
 vsc_extensions_dir="$XDG_CACHE_HOME/code/extensions/"
-vsc_extensions_list_file="${TMPDIR}vscode-plugins-list.txt"
+vsc_extensions_list_queue="${TMPDIR}vscode.plugins.txt"
 
-if [ ! -f "$vsc_extensions_list_file" ]; then
-	[ -n "$plugins_list" ] &&
-		vsc_extensions_list=$(cat "$plugins_list") ||
-		vsc_extensions_list=$(cat "$root_dir/etc/scripts/vscode-plugins-list.txt")
-	echo "$vsc_extensions_list" >"$vsc_extensions_list_file"
+if [ -f "$vsc_extensions_list_queue" ]; then
+	vsc_extensions_list=$(cat "$vsc_extensions_list_queue")
 else
-	vsc_extensions_list=$(cat "$vsc_extensions_list_file")
+	vsc_extensions_list=$(cat "$plugins_list")
+	echo "$vsc_extensions_list" >"$vsc_extensions_list_queue"
 fi
 
 for extension in $vsc_extensions_list
@@ -46,9 +44,9 @@ do
 		--force
 
 	# Remove the last extension that was successfully installed so it won't be
-	# reprocessed when the script it re-executed after a failure.
-	sed -i '' '1d' "$vsc_extensions_list_file"
+	# reprocessed when the script is re-ran after a failure.
+	sed -i '' '1d' "$vsc_extensions_list_queue"
 
 done
 
-rm "$vsc_extensions_list_file"
+rm "$vsc_extensions_list_queue"
