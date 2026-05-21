@@ -5,22 +5,18 @@ applicable to previous versions too.
 ## Preparation
 - Check if there any updates for [MongoDB Tools](https://github.com/mongodb/mongo-tools/tags)
   and update `etc/scripts/install-mongo-utils.sh`.
-- Enable `softwareupdated`.
-  ```
-  sudo launchctl enable system/com.apple.mobile.softwareupdated
-  sudo launchctl enable system/com.apple.softwareupdated
-  ```
+- Enable maintenance services `bash etc/macos/scripts/enable-maintenance-services.sh`
 - Reboot.
-- Check for updates from Apple `softwareupdate --list`.
+- Check for updates from Apple `softwareupdate --list`
 - Install updates from Apple
-  - Regular install: `softwareupdate --install "<label>"`.
-  - Update w/ restart: `sudo softwareupdate --restart --install "<label>"`.
+  - Regular install: `softwareupdate --install "<label>"`
+  - Update w/ restart: `sudo softwareupdate --restart --install "<label>"`
 - Reboot
 - Install App Store update.
 - Open 1st party apps and make sure they're working as intended.
 
 ## Updates
-- Update dotfiles `./configure.sh`.
+- Update dotfiles `./configure.sh`
 - Update hosts `bash etc/scripts/install-hosts.sh [--force-hostname <host>]`
 - Update Azahar `bash etc/macos/scripts/install-azahar.sh [--version <ver>]`
 - Update iSMC `bash etc/macos/scripts/install-iscm.sh [--version <ver>]`
@@ -55,11 +51,7 @@ applicable to previous versions too.
 - Disable SIP in case it got enabled
   - `csrutil status`.
   - [Disable SIP](https://developer.apple.com/documentation/security/disabling-and-enabling-system-integrity-protection).
-- Disable `softwareupdated`.
-  ```
-  sudo launchctl disable system/com.apple.mobile.softwareupdated
-  sudo launchctl disable system/com.apple.softwareupdated
-  ```
+- Disable macOS services `bash etc/macos/scripts/disable-services.sh`
 - Save any configuration changes: `bash etc/macos/scripts/export-defaults.sh`
 - Open _Ghostty_ and purge all caches: `purge all` 
 - Reboot.
