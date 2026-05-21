@@ -19,8 +19,8 @@ user_services=(
 	com.apple.ap.adprivacyd
 	com.apple.ap.adservicesd
 	com.apple.ap.promotedcontentd
-	# com.apple.appstoreagent
-	# com.apple.appstorecomponentsd
+	com.apple.appstoreagent
+	com.apple.appstorecomponentsd
 	com.apple.assistant_cdmd
 	com.apple.assistant_service
 	com.apple.assistantd
@@ -164,9 +164,9 @@ done
 
 system_services=(
 	com.apple.analyticsd
-	# com.apple.appstored
-	# com.apple.AppStoreDaemon.StorePrivilegedODRService
-	# com.apple.AppStoreDaemon.StorePrivilegedTaskService
+	com.apple.appstored
+	com.apple.AppStoreDaemon.StorePrivilegedODRService
+	com.apple.AppStoreDaemon.StorePrivilegedTaskService
 	com.apple.audioanalyticsd
 	com.apple.backupd
 	com.apple.backupd-helper
