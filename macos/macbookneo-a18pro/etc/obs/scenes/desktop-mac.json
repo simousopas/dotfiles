@@ -1,7 +1,7 @@
 {
 	"name": "Desktop / Mac",
 	"AuxAudioDevice1": {
-		"prev_ver": 536936449,
+		"prev_ver": 536936450,
 		"name": "Mic/Aux",
 		"uuid": "eb6f8445-63b9-4ab2-ac69-94e122a99028",
 		"id": "coreaudio_input_capture",
@@ -33,7 +33,7 @@
 	},
 	"sources": [
 		{
-			"prev_ver": 536936449,
+			"prev_ver": 536936450,
 			"name": "Screen",
 			"uuid": "aaed6f75-6282-41f9-a965-2074a063fa81",
 			"id": "screen_capture",
@@ -64,7 +64,7 @@
 			"private_settings": {}
 		},
 		{
-			"prev_ver": 536936449,
+			"prev_ver": 536936450,
 			"name": "Camera / FaceTime HD",
 			"uuid": "96ebc7d5-b5e0-411d-9491-38e419f7642c",
 			"id": "macos-avcapture",
@@ -97,7 +97,7 @@
 			"private_settings": {},
 			"filters": [
 				{
-					"prev_ver": 536936449,
+					"prev_ver": 536936450,
 					"name": "Image Mask/Blend",
 					"uuid": "de1a9f7a-52da-4ae5-ba33-58d3f390e4a5",
 					"id": "mask_filter",
@@ -125,7 +125,7 @@
 			]
 		},
 		{
-			"prev_ver": 536936449,
+			"prev_ver": 536936450,
 			"name": "Desktop",
 			"uuid": "654f6e48-4805-43be-809f-bfcd06c37e81",
 			"id": "scene",
@@ -317,7 +317,7 @@
 	"saved_projectors": [],
 	"preview_locked": false,
 	"scaling_enabled": false,
-	"scaling_level": -11,
+	"scaling_level": -14,
 	"scaling_off_x": 0.0,
 	"scaling_off_y": 0.0,
 	"virtual-camera": {
