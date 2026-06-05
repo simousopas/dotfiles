@@ -18,12 +18,9 @@ applicable to previous versions too.
 ## Updates
 - Update dotfiles `./configure.sh`
 - Update hosts `bash etc/scripts/install-hosts.sh [--force-hostname <host>]`
-- Update Azahar `bash etc/macos/scripts/install-azahar.sh [--version <ver>]`
-- Update iSMC `bash etc/macos/scripts/install-iscm.sh [--version <ver>]`
-- Update MelonDS `bash etc/macos/scripts/install-melonds.sh [--version <ver>]`
+- Update iSMC `bash etc/macos/scripts/install-ismc.sh [--version <ver>]`
 - Update MongoDB Shell `bash etc/scripts/install-mongo-utils.sh shell [--version <ver>]`
 - Update MongoDB Tools `bash etc/scripts/install-mongo-utils.sh tools [--version <ver>]`
-- Update SkyEmu `bash etc/macos/scripts/install-skyemu.sh [--version <ver>]`
 - Update vcpkg `bash etc/scripts/install-vcpkg.sh [--tag <tag>]`
 - Update Homebrew's apps.
   - Quit all apps.
@@ -34,6 +31,10 @@ applicable to previous versions too.
   - Update all outdated formulae and apps: `brew upgrade --greedy`
   - Unlink specific formulae: `brew unlink python@3.14 openssl@3`
   - Purge the cache: `brew cleanup [--dry-run]`
+- Update other apps.
+  - Update Azahar `bash etc/macos/scripts/install-azahar.sh [--version <ver>]`
+  - Update MelonDS `bash etc/macos/scripts/install-melonds.sh [--version <ver>]`
+  - Update SkyEmu `bash etc/macos/scripts/install-skyemu.sh [--version <ver>]`
 - Update Mise plugins and tools
   - Update all plugins: `mise plugins upgrade`
   - Update all tools: `mise upgrade`
