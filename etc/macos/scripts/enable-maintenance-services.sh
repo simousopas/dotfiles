@@ -14,5 +14,6 @@ fi
 sudo launchctl enable "system/com.apple.appstored"
 sudo launchctl enable "system/com.apple.AppStoreDaemon.StorePrivilegedODRService"
 sudo launchctl enable "system/com.apple.AppStoreDaemon.StorePrivilegedTaskService"
+sudo launchctl enable "system/com.apple.dasd"
 sudo launchctl enable "system/com.apple.mobile.softwareupdated"
 sudo launchctl enable "system/com.apple.softwareupdated"
