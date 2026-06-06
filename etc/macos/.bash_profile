@@ -49,7 +49,7 @@ fi
 [ -n "$HOMEBREW_PREFIX" ] &&
 	export SHELL="$HOMEBREW_PREFIX/bin/bash" &&
 	export HOMEBREW_CELLAR="$HOMEBREW_PREFIX/Cellar" &&
-	export HOMEBREW_REPOSITORY="$HOMEBREW_PREFIX/Homebrew"
+	export HOMEBREW_REPOSITORY="$HOMEBREW_PREFIX"
 
 [ -n "$HOMEBREW_PREFIX" ] &&
 [[ ! ":$INFOPATH:" == *":$HOMEBREW_PREFIX/share/info:"* ]] && {
