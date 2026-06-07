@@ -183,6 +183,24 @@ mkcd () {
 	fi
 }
 
+reset_alttab_trial () {
+	local appname="AltTab"
+	local domain="com.lwouis.alt-tab-macos.license"
+	local key="trialStartDate"
+	local value="$(gdate +%s.%N)"
+
+	echo "Killing $appname ..."
+	killall "$appname"
+	sleep 1
+
+	echo "Resetting the trial's key ..."
+	defaults write "$domain" "$key" -string "$value"
+	sleep 1
+
+	echo "Restarting $appname ..."
+	open -a AltTab
+}
+
 # Taken from https://stackoverflow.com/a/44811468
 # Sanite a string to produce a valid file name.
 sanitize () {

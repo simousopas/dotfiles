@@ -149,8 +149,22 @@ function mkcd --description "Create a directory if it doesn't exist and cd into 
 	end
 end
 
-function secrm --description "Remove files in a secure manner using GNU shred."
-	bash --login -c "secrm $argv"
+function reset_alttab_trial --description ""
+	set --local appname "AltTab"
+	set --local domain "com.lwouis.alt-tab-macos.license"
+	set --local key "trialStartDate"
+	set --local value (gdate +%s.%N)
+
+	echo "Killing $appname ..."
+	killall AltTab
+	sleep 1
+
+	echo "Resetting the trial's key ..."
+	defaults write "$domain" "$key" -string "$value"
+	sleep 1
+
+	echo "Restarting $appname ..."
+	open -a AltTab
 end
 
 # Adapted from https://stackoverflow.com/a/44811468
@@ -161,6 +175,10 @@ function sanitize --description ""
 	set --local s (echo "$s" | sed -E 's/-+/-/g')
 	set --local s (string trim --char=- -- "$s")
 	echo "$s"
+end
+
+function secrm --description "Remove files in a secure manner using GNU shred."
+	bash --login -c "secrm $argv"
 end
 
 # ============================= #
