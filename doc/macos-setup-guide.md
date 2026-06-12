@@ -9,8 +9,10 @@ previous versions too.
 - Remove login and usage data (Aldent, Protonmail, Fastmail, Github, YouTube,
   Brave, Safari, Signal, WhatsApp, Spotify).
 - Turn off _Find My_.
-- Remove the FireVault key from iCloud using the Passwords app.
 - Unpair Bluetooth peripherals.
+- Turn off the computer.
+- Remove the FireVault key from iCloud using the Passwords app.
+- Remove the device from the iCloud account.
 - [Restore macOS firmware](https://support.apple.com/en-us/108900) on the host.
 
 ## Settings
@@ -119,7 +121,7 @@ previous versions too.
   - `mkdir -p ~/{Developer,Downloads/Safari,.cache,.config,.local,.ssh}`
   - Add `~/Developer` to the sidebar and set its layout.
   - Add the following folders to Spotlight's privacy list
-    - `open /{opt,usr/local,Library,System/Library/Frameworks}`
+    - `open /{opt,usr/local,Library,System/Library/Frameworks,Users/Shared}`
     - `open ~/{Developer,Documents,Downloads,Library,.cache,.config,.local,.ssh}`
 - Configure _Contacts_ app
   - _View_, _Hide Lists_.

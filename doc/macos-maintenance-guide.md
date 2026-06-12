@@ -11,7 +11,7 @@ applicable to previous versions too.
 - Install updates from Apple
   - Regular install: `softwareupdate --install "<label>"`
   - Update w/ restart: `sudo softwareupdate --restart --install "<label>"`
-- Reboot
+- Reboot.
 - Install App Store update.
 - Open 1st party apps and make sure they're working as intended.
 
