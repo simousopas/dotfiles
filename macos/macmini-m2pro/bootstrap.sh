@@ -69,9 +69,9 @@ fi
 
 log_info "\t >>> Installing Homebrew command line tools ..."
 homebrew_clt=(
-	7zip aria2 bat bash bash-completion@2 bzip2 coreutils eza fd fio fish fzf
-	gettext git-delta gsed jq lf lima macmon miniserve mise neovim pbzip2 pigz
-	pinentry ripgrep shellcheck tokei tree typst xz zstd
+	7zip aria2 bat bash bash-completion@2 bzip2 container coreutils eza fd fio
+	fish fzf gettext git-delta gsed jq lf lima macmon miniserve mise neovim
+	pbzip2 pigz pinentry ripgrep shellcheck tokei tree typst xz zstd
 )
 brew install "${homebrew_clt[@]}"
 brew unlink openssl@3
