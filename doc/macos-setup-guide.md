@@ -6,8 +6,8 @@ previous versions too.
 - Backup Brave's bookmarks and passwords.
 - Backup any data in `~/Documents` and `~/Downloads`.
 - Backup any code in `~/Developer` that wasn't pushed to git.
-- Remove login and usage data (Aldent, Protonmail, Fastmail, Github, YouTube,
-  Brave, Safari, Signal, WhatsApp, Spotify).
+- Remove login and usage data (Aldent, Protonmail, Fastmail, GitHub, YouTube,
+  ChatGPT, Claude, Gemini, Brave, Safari, Signal, WhatsApp, Spotify).
 - Turn off _Find My_.
 - Unpair Bluetooth peripherals.
 - Turn off the computer.
@@ -189,7 +189,6 @@ previous versions too.
     - Review all default settings.
     - Enable the _Parallel downloading_ feature in `brave://flags`.
     - Delete all browsing data.
-    - Configure microphone, camera and desktop access in `https://talk.brave.com`.
 - Exit all apps run `bash etc/macos/scripts/toggle-application-lock.sh`
 
 ## Wrap up
@@ -197,6 +196,9 @@ previous versions too.
   Notifications.
 - Press `Cmd+Shift+5`, pick _Options_ and set `~/Documents/Captures` as the
   storage location.
+- Setup ProtonMail, GitHub, YouTube, ChatGPT, Claude, Gemini, Fastmail and
+  Brave Talk on Safari.
+- Setup GitHub, YouTube and Brave Talk on Brave.
 - [Disable SIP](https://developer.apple.com/documentation/security/disabling-and-enabling-system-integrity-protection).
 - Disable macOS services: `bash etc/macos/scripts/disable-services.sh`
 - Open _Ghostty_ and run `purge all`
