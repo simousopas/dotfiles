@@ -80,7 +80,7 @@ log_info "\t >>> Installing Homebrew apps ..."
 homebrew_casks=(
 	aldente alt-tab betterdisplay brave-browser bruno coconutbattery
 	dbeaver-community font-jetbrains-mono-nerd-font fork geekbench ghostty iina
-	keyboardcleantool mac-mouse-fix obs spotify transmission utm
+	keyboardcleantool mac-mouse-fix obs signal spotify transmission utm
 	visual-studio-code visualdiffer zed
 )
 brew install --cask "${homebrew_casks[@]}"
@@ -110,6 +110,10 @@ pip3 install --user pynvim
 log_info "\t >>> Installing mise packages ..."
 MISE_YES=1 mise install
 # fish --command "bun completions"
+
+
+log_info "\t >>> Installing macvdmtool ..."
+/bin/bash "$root_dir/etc/macos/scripts/install-macvdmtool.sh"
 
 
 log_info "\t >>> Installing iSMC ..."
