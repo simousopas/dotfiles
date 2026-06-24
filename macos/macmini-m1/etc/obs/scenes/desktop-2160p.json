@@ -70,8 +70,8 @@
 			"id": "macos-avcapture",
 			"versioned_id": "macos-avcapture",
 			"settings": {
-				"device": "0x2111400046d082d",
 				"device_name": "HD Pro Webcam C920",
+				"device": "0x2111400046d082d",
 				"preset": "AVCaptureSessionPreset640x480"
 			},
 			"mixers": 255,
@@ -237,9 +237,17 @@
 						"blend_method": "default",
 						"blend_type": "normal",
 						"show_transition": {
+							"id": "fade_transition",
+							"versioned_id": "fade_transition",
+							"name": "Camera / Logitech C920 Show Transition",
+							"transition": {},
 							"duration": 300
 						},
 						"hide_transition": {
+							"id": "fade_transition",
+							"versioned_id": "fade_transition",
+							"name": "Camera / Logitech C920 Hide Transition",
+							"transition": {},
 							"duration": 300
 						},
 						"private_settings": {}
