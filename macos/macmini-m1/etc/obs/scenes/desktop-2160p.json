@@ -1,14 +1,45 @@
 {
 	"name": "Desktop / 2160p",
+	"AuxAudioDevice1": {
+		"prev_ver": 536936450,
+		"name": "Mic/Aux",
+		"uuid": "b112f292-fd96-4aa3-860e-2651e9d5ba87",
+		"id": "coreaudio_input_capture",
+		"versioned_id": "coreaudio_input_capture",
+		"settings": {
+			"device_id": "default"
+		},
+		"mixers": 255,
+		"sync": 0,
+		"flags": 0,
+		"volume": 1.0,
+		"balance": 0.5,
+		"enabled": true,
+		"muted": false,
+		"push-to-mute": false,
+		"push-to-mute-delay": 0,
+		"push-to-talk": false,
+		"push-to-talk-delay": 0,
+		"hotkeys": {
+			"libobs.mute": [],
+			"libobs.unmute": [],
+			"libobs.push-to-mute": [],
+			"libobs.push-to-talk": []
+		},
+		"deinterlace_mode": 0,
+		"deinterlace_field_order": 0,
+		"monitoring_type": 0,
+		"private_settings": {}
+	},
 	"sources": [
 		{
 			"prev_ver": 536936450,
 			"name": "Screen",
-			"uuid": "29af6e15-b10a-4ddd-8143-18a65768b4ff",
+			"uuid": "7d38371a-f381-40a6-9b90-6dc5a5a0bfb4",
 			"id": "screen_capture",
 			"versioned_id": "screen_capture",
 			"settings": {
-				"display_uuid": "B8F15546-CE30-4FAF-8B9A-E27905EA7253"
+				"display_uuid": "2FA9EDF2-9ACB-4478-9931-34B6B3ACDBAC"
 			},
 			"mixers": 255,
 			"sync": 0,
@@ -34,17 +65,78 @@
 		},
 		{
 			"prev_ver": 536936450,
+			"name": "Camera / Logitech C920",
+			"uuid": "49ad172d-a67e-4aff-b8c0-472c90b73acc",
+			"id": "macos-avcapture",
+			"versioned_id": "macos-avcapture",
+			"settings": {
+				"device": "0x2111400046d082d",
+				"device_name": "HD Pro Webcam C920",
+				"preset": "AVCaptureSessionPreset640x480"
+			},
+			"mixers": 255,
+			"sync": 0,
+			"flags": 0,
+			"volume": 1.0,
+			"balance": 0.5,
+			"enabled": true,
+			"muted": false,
+			"push-to-mute": false,
+			"push-to-mute-delay": 0,
+			"push-to-talk": false,
+			"push-to-talk-delay": 0,
+			"hotkeys": {
+				"libobs.mute": [],
+				"libobs.unmute": [],
+				"libobs.push-to-mute": [],
+				"libobs.push-to-talk": []
+			},
+			"deinterlace_mode": 0,
+			"deinterlace_field_order": 0,
+			"monitoring_type": 0,
+			"private_settings": {},
+			"filters": [
+				{
+					"prev_ver": 536936450,
+					"name": "Image Mask/Blend",
+					"uuid": "9746f15f-f5c8-4890-8174-751b1d9e412f",
+					"id": "mask_filter",
+					"versioned_id": "mask_filter_v2",
+					"settings": {
+						"image_path": "/Users/fm/Documents/Misc/obs-mask.png"
+					},
+					"mixers": 0,
+					"sync": 0,
+					"flags": 0,
+					"volume": 1.0,
+					"balance": 0.5,
+					"enabled": true,
+					"muted": false,
+					"push-to-mute": false,
+					"push-to-mute-delay": 0,
+					"push-to-talk": false,
+					"push-to-talk-delay": 0,
+					"hotkeys": {},
+					"deinterlace_mode": 0,
+					"deinterlace_field_order": 0,
+					"monitoring_type": 0,
+					"private_settings": {}
+				}
+			]
+		},
+		{
+			"prev_ver": 536936450,
 			"name": "Desktop",
-			"uuid": "998e6492-6aa9-467e-bfac-9b2d824b1099",
+			"uuid": "1dfbc534-4208-4794-9378-33db497d35af",
 			"id": "scene",
 			"versioned_id": "scene",
 			"settings": {
-				"id_counter": 1,
+				"id_counter": 2,
 				"custom_size": false,
 				"items": [
 					{
 						"name": "Screen",
-						"source_uuid": "29af6e15-b10a-4ddd-8143-18a65768b4ff",
+						"source_uuid": "7d38371a-f381-40a6-9b90-6dc5a5a0bfb4",
 						"visible": true,
 						"locked": true,
 						"rot": 0.0,
@@ -96,6 +188,61 @@
 							"duration": 300
 						},
 						"private_settings": {}
+					},
+					{
+						"name": "Camera / Logitech C920",
+						"source_uuid": "49ad172d-a67e-4aff-b8c0-472c90b73acc",
+						"visible": true,
+						"locked": true,
+						"rot": 0.0,
+						"scale_ref": {
+							"x": 3840.0,
+							"y": 2160.0
+						},
+						"align": 5,
+						"bounds_type": 0,
+						"bounds_align": 0,
+						"bounds_crop": false,
+						"crop_left": 0,
+						"crop_top": 0,
+						"crop_right": 0,
+						"crop_bottom": 0,
+						"id": 2,
+						"group_item_backup": false,
+						"pos": {
+							"x": 3840.0,
+							"y": 1680.0
+						},
+						"pos_rel": {
+							"x": 1.7777777910232544,
+							"y": 0.5555555820465088
+						},
+						"scale": {
+							"x": -1.0,
+							"y": 1.0
+						},
+						"scale_rel": {
+							"x": -1.0,
+							"y": 1.0
+						},
+						"bounds": {
+							"x": 0.0,
+							"y": 0.0
+						},
+						"bounds_rel": {
+							"x": 0.0,
+							"y": 0.0
+						},
+						"scale_filter": "disable",
+						"blend_method": "default",
+						"blend_type": "normal",
+						"show_transition": {
+							"duration": 300
+						},
+						"hide_transition": {
+							"duration": 300
+						},
+						"private_settings": {}
 					}
 				]
 			},
@@ -113,7 +260,9 @@
 			"hotkeys": {
 				"OBSBasic.SelectScene": [],
 				"libobs.show_scene_item.1": [],
-				"libobs.hide_scene_item.1": []
+				"libobs.hide_scene_item.1": [],
+				"libobs.show_scene_item.2": [],
+				"libobs.hide_scene_item.2": []
 			},
 			"deinterlace_mode": 0,
 			"deinterlace_field_order": 0,
