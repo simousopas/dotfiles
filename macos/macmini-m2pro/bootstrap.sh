@@ -81,7 +81,7 @@ log_info "\t >>> Installing Homebrew apps ..."
 homebrew_casks=(
 	alt-tab betterdisplay brave-browser bruno dbeaver-community
 	font-jetbrains-mono-nerd-font fork geekbench ghostty iina mac-mouse-fix obs
-	spotify transmission utm visual-studio-code visualdiffer zed
+	signal spotify transmission utm visual-studio-code visualdiffer zed
 )
 brew install --cask "${homebrew_casks[@]}"
 
