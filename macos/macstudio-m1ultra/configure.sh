@@ -11,8 +11,9 @@ trap "popd >/dev/null" EXIT
 source "$root_dir/etc/scripts/helper.sh"
 trap "popd >/dev/null; trap_error" ERR
 
-cp "$root_dir/etc/macos/.bash_profile" "$HOME/"
-sed -i '' "s|#EXTERNAL_VOLUME|/Volumes/E1|" "$HOME/.bash_profile"
+cp "$root_dir/etc/macos/.bash_profile" "$TMPDIR/"
+sed -i '' "s|#EXTERNAL_VOLUME|/Volumes/E1|" "$TMPDIR/.bash_profile"
+mv "$TMPDIR/.bash_profile" "$HOME/"
 ln -sf "$HOME/.bash_profile" "$HOME/.bashrc"
 # shellcheck disable=SC1091
 source "$HOME/.bash_profile" || true
