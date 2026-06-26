@@ -53,15 +53,15 @@ if [ -d "$EXTERNAL_VOLUME" ]; then
 	ln -fs "$EXTERNAL_VOLUME/Developer/github" "$CODE"
 	ln -fs "$EXTERNAL_VOLUME/Developer/simousopas" "$CODE"
 
-	ln -fs "$EXTERNAL_VOLUME/Captures" "$DOCUMENTS"
-	ln -fs "$EXTERNAL_VOLUME/Misc" "$DOCUMENTS"
-	ln -fs "$EXTERNAL_VOLUME/Remote" "$DOCUMENTS"
-	ln -fs "$EXTERNAL_VOLUME/UTM" "$DOCUMENTS"
+	ln -fs "$EXTERNAL_VOLUME/Documents/Captures" "$DOCUMENTS"
+	ln -fs "$EXTERNAL_VOLUME/Documents/Misc" "$DOCUMENTS"
+	ln -fs "$EXTERNAL_VOLUME/Documents/Remote" "$DOCUMENTS"
+	ln -fs "$EXTERNAL_VOLUME/Documents/UTM" "$DOCUMENTS"
 
-	ln -fs "$EXTERNAL_VOLUME/Brave" "$DOWNLOADS"
-	ln -fs "$EXTERNAL_VOLUME/Misc" "$DOWNLOADS"
-	ln -fs "$EXTERNAL_VOLUME/Safari" "$DOWNLOADS"
-	ln -fs "$EXTERNAL_VOLUME/Torrents" "$DOWNLOADS"
+	ln -fs "$EXTERNAL_VOLUME/Downloads/Brave" "$DOWNLOADS"
+	ln -fs "$EXTERNAL_VOLUME/Downloads/Misc" "$DOWNLOADS"
+	ln -fs "$EXTERNAL_VOLUME/Downloads/Safari" "$DOWNLOADS"
+	ln -fs "$EXTERNAL_VOLUME/Downloads/Torrents" "$DOWNLOADS"
 fi
 
 app_support_folder="$HOME/Library/Application Support"
