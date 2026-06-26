@@ -14,7 +14,7 @@ trap "popd >/dev/null; trap_error" ERR
 cp "$root_dir/etc/macos/.bash_profile" "$TMPDIR/"
 sed -i '' "s|#EXTERNAL_VOLUME||" "$TMPDIR/.bash_profile"
 mv "$TMPDIR/.bash_profile" "$HOME/"
-ln -sf "$HOME/.bash_profile" "$HOME/.bashrc"
+ln -fs "$HOME/.bash_profile" "$HOME/.bashrc"
 # shellcheck disable=SC1091
 source "$HOME/.bash_profile" || true
 
@@ -35,7 +35,7 @@ mkdir -p \
 "$XDG_CACHE_HOME"/bun/{bin,cache-install,cache-transpiler,lib} \
 "$XDG_CACHE_HOME"/code/{data/User,extensions} \
 "$XDG_CACHE_HOME"/deno/bin \
-"$XDG_CACHE_HOME"/lima \
+"$XDG_CACHE_HOME"/{container,lima} \
 "$XDG_CONFIG_HOME"/{bat/themes,fd,fish/completions} \
 "$XDG_CONFIG_HOME"/{ghostty,git,lf,lima,mise,nvim,pip,rg,zed} \
 "$CODE"/{github,simousopas} \
@@ -79,7 +79,8 @@ chmod u+x "$HOME/.local/bin/lfpreview"
 sed -i '' "s|#EXTERNAL_VOLUME||" "$XDG_CONFIG_HOME/fish/config.fish"
 sed -i '' "s|#LIMA_HOME|$XDG_CONFIG_HOME/lima|" "$HOME/.bash_profile"
 sed -i '' "s|#LIMA_HOME|$XDG_CONFIG_HOME/lima|" "$XDG_CONFIG_HOME/fish/config.fish"
-ln -sf "$XDG_CACHE_HOME/lima" "$HOME/Library/Caches/lima"
+ln -fhs "$XDG_CACHE_HOME/container" "$HOME/Library/Application Support/com.apple.container"
+ln -fhs "$XDG_CACHE_HOME/lima" "$HOME/Library/Caches/lima"
 
 touch "$HOME/.bash_sessions_disable"
 touch "$HOME/.hushlogin"

@@ -33,7 +33,7 @@ clean_install () {
 	echo "-> Installing vcpkg ..."
 	[ -d "$VCPKG_ROOT" ] && rm -rf "$VCPKG_ROOT"
 	mv "$TMPDIR/vcpkg" "$VCPKG_ROOT"
-	ln -sf "$VCPKG_ROOT/vcpkg" ~/.local/bin/vcpkg
+	ln -fs "$VCPKG_ROOT/vcpkg" ~/.local/bin/vcpkg
 
 	echo "-> Done!"
 }
@@ -47,7 +47,7 @@ update_preexisting () {
 
 	echo "-> Bootstrapping and installing vcpkg ..."
 	_run ./bootstrap-vcpkg.sh
-	ln -sf "$VCPKG_ROOT/vcpkg" ~/.local/bin/vcpkg
+	ln -fs "$VCPKG_ROOT/vcpkg" ~/.local/bin/vcpkg
 
 	popd >/dev/null
 	echo "-> Done!"

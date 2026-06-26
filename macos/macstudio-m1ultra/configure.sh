@@ -14,7 +14,7 @@ trap "popd >/dev/null; trap_error" ERR
 cp "$root_dir/etc/macos/.bash_profile" "$TMPDIR/"
 sed -i '' "s|#EXTERNAL_VOLUME|/Volumes/E1|" "$TMPDIR/.bash_profile"
 mv "$TMPDIR/.bash_profile" "$HOME/"
-ln -sf "$HOME/.bash_profile" "$HOME/.bashrc"
+ln -fs "$HOME/.bash_profile" "$HOME/.bashrc"
 # shellcheck disable=SC1091
 source "$HOME/.bash_profile" || true
 
@@ -35,18 +35,20 @@ mkdir -p \
 "$XDG_CACHE_HOME"/bun/{bin,cache-install,cache-transpiler,lib} \
 "$XDG_CACHE_HOME"/code/{data/User,extensions} \
 "$XDG_CACHE_HOME"/deno/bin \
-"$XDG_CACHE_HOME"/lima \
 "$XDG_CONFIG_HOME"/{bat/themes,fd,fish/completions} \
 "$XDG_CONFIG_HOME"/{ghostty,git,lf,lima,mise,nvim,pip,rg,zed} \
 "$CODE"
 
 if [ -d "$EXTERNAL_VOLUME" ]; then
-	mkdir -p "$EXTERNAL_VOLUME/.cache/lima" \
+	mkdir -p "$EXTERNAL_VOLUME/.cache/{container,lima}" \
 		"$EXTERNAL_VOLUME/Developer"/{github,simousopas} \
 		"$EXTERNAL_VOLUME/Documents"/{Captures,Misc,Remote,UTM} \
 		"$EXTERNAL_VOLUME/Downloads"/{Brave,Misc,Safari,Torrents}
 
-	ln -sf "$EXTERNAL_VOLUME/.cache/lima" "$HOME/Library/Caches/lima"
+	ln -fhs "$EXTERNAL_VOLUME/.cache/container" "$XDG_CACHE_HOME/container"
+	ln -fhs "$XDG_CACHE_HOME/container" "$HOME/Library/Application Support/com.apple.container"
+	ln -fhs "$EXTERNAL_VOLUME/.cache/lima" "$XDG_CACHE_HOME/lima"
+	ln -fhs "$XDG_CACHE_HOME/lima" "$HOME/Library/Caches/lima"
 
 	ln -fs "$EXTERNAL_VOLUME/Developer/github" "$CODE"
 	ln -fs "$EXTERNAL_VOLUME/Developer/simousopas" "$CODE"
