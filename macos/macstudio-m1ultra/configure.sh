@@ -40,7 +40,7 @@ mkdir -p \
 "$CODE"
 
 if [ -d "$EXTERNAL_VOLUME" ]; then
-	mkdir -p "$EXTERNAL_VOLUME/.cache/{container,lima}" \
+	mkdir -p "$EXTERNAL_VOLUME/.cache"/{container,lima} \
 		"$EXTERNAL_VOLUME/Developer"/{github,simousopas} \
 		"$EXTERNAL_VOLUME/Documents"/{Captures,Misc,Remote,UTM} \
 		"$EXTERNAL_VOLUME/Downloads"/{Brave,Misc,Safari,Torrents}
@@ -50,18 +50,18 @@ if [ -d "$EXTERNAL_VOLUME" ]; then
 	ln -fhs "$EXTERNAL_VOLUME/.cache/lima" "$XDG_CACHE_HOME/lima"
 	ln -fhs "$XDG_CACHE_HOME/lima" "$HOME/Library/Caches/lima"
 
-	ln -fs "$EXTERNAL_VOLUME/Developer/github" "$CODE"
-	ln -fs "$EXTERNAL_VOLUME/Developer/simousopas" "$CODE"
+	ln -fhs "$EXTERNAL_VOLUME/Developer/github" "$CODE"
+	ln -fhs "$EXTERNAL_VOLUME/Developer/simousopas" "$CODE"
 
-	ln -fs "$EXTERNAL_VOLUME/Documents/Captures" "$DOCUMENTS"
-	ln -fs "$EXTERNAL_VOLUME/Documents/Misc" "$DOCUMENTS"
-	ln -fs "$EXTERNAL_VOLUME/Documents/Remote" "$DOCUMENTS"
-	ln -fs "$EXTERNAL_VOLUME/Documents/UTM" "$DOCUMENTS"
+	ln -fhs "$EXTERNAL_VOLUME/Documents/Captures" "$DOCUMENTS"
+	ln -fhs "$EXTERNAL_VOLUME/Documents/Misc" "$DOCUMENTS"
+	ln -fhs "$EXTERNAL_VOLUME/Documents/Remote" "$DOCUMENTS"
+	ln -fhs "$EXTERNAL_VOLUME/Documents/UTM" "$DOCUMENTS"
 
-	ln -fs "$EXTERNAL_VOLUME/Downloads/Brave" "$DOWNLOADS"
-	ln -fs "$EXTERNAL_VOLUME/Downloads/Misc" "$DOWNLOADS"
-	ln -fs "$EXTERNAL_VOLUME/Downloads/Safari" "$DOWNLOADS"
-	ln -fs "$EXTERNAL_VOLUME/Downloads/Torrents" "$DOWNLOADS"
+	ln -fhs "$EXTERNAL_VOLUME/Downloads/Brave" "$DOWNLOADS"
+	ln -fhs "$EXTERNAL_VOLUME/Downloads/Misc" "$DOWNLOADS"
+	ln -fhs "$EXTERNAL_VOLUME/Downloads/Safari" "$DOWNLOADS"
+	ln -fhs "$EXTERNAL_VOLUME/Downloads/Torrents" "$DOWNLOADS"
 fi
 
 app_support_folder="$HOME/Library/Application Support"
