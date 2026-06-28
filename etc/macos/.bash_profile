@@ -389,15 +389,15 @@ e () {
 # Pager-like implementation using neovim
 # shellcheck disable=SC2120
 pager () {
-	local target="-"
-	[ -n "$1" ] && target="$1"
+	[ -n "$1" ] && [ ! -f "$1" ] && return 0
 
+	local file=$([ -n "$1" ] && echo "$1" || echo "-")
 	nvim -n -u NONE -i NONE -R \
 		-c "map q :q<CR>" \
 		-c "set laststatus=0" \
 		-c "set number" \
 		-c "hi Normal ctermbg=NONE guibg=NONE" \
-		-c "syntax on" "$target"
+		-c "syntax on" "$file"
 }
 
 # Purge temporary data from some programs.
