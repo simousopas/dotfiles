@@ -112,6 +112,10 @@ MISE_YES=1 mise install
 # fish --command "bun completions"
 
 
+log_info "\t >>> Installing batt ..."
+/bin/bash "$root_dir/etc/macos/scripts/install-batt.sh"
+
+
 log_info "\t >>> Installing iSMC ..."
 /bin/bash "$root_dir/etc/macos/scripts/install-ismc.sh"
 ismc completion bash >"$HOME/.bash_completion.d/iscm.sh"
