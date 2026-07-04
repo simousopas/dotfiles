@@ -44,7 +44,7 @@ applicable to previous versions too.
 - Open updated apps and make sure they're working as intended.
 - Update Brave's Content Filters list.
 - Update VSCode's plugins.
-- Review the settings of iCloud, Login Items, Siri Suggestions and
+- Review the settings of iCloud, Login Items, Siri Suggestions, Spotlight and
   Notifications.
 
 ## Wrap up
