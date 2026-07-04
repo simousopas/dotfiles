@@ -114,6 +114,8 @@ MISE_YES=1 mise install
 
 log_info "\t >>> Installing batt ..."
 /bin/bash "$root_dir/etc/macos/scripts/install-batt.sh"
+batt completion bash >"$HOME/.bash_completion.d/batt.sh"
+batt completion fish >"$XDG_CONFIG_HOME/fish/completions/batt.fish"
 
 
 log_info "\t >>> Installing iSMC ..."
