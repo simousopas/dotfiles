@@ -89,7 +89,7 @@ esac; done
 check_preconds () {
 	log "Checking pre-conditions ..."
 
-	[[ -z "$VCPKG_ROOT" ]] &&
+	[[ -z $VCPKG_ROOT ]] &&
 		err "This script requires \$VCPKG_ROOT to be set upfront." &&
 		exit 1
 
@@ -98,17 +98,17 @@ check_preconds () {
 		exit 1
 	fi
 
-	if [[ -z "$vcpkg_version" ]] && ! which -s curl; then
+	if [[ -z $vcpkg_version ]] && ! which -s curl; then
 		err "When --version is not specified \`curl\` is required to fetch vcpkg release metadata."
 		exit 1
 	fi
 
-	if [[ -z "$vcpkg_version" ]] && ! which -s jq; then
+	if [[ -z $vcpkg_version ]] && ! which -s jq; then
 		err "When --version is not specified \`jq\` is required to parse vcpkg release metadata."
 		exit 1
 	fi
 
-	if [[ ! -d "$vcpkg_bin_dir" ]]; then
+	if [[ ! -d $vcpkg_bin_dir ]]; then
 		err "\$vcpkg_bin_dir is referencing a location that's not a directory: '$vcpkg_bin_dir'."
 		exit 1
 	fi
