@@ -1,71 +1,171 @@
 #!/usr/bin/env bash
 # shellcheck source-path=SCRIPTDIR
 
-set -e
-mydir="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null && pwd)"
-root_dir="$(cd "$mydir/../../" && pwd)"
+# README
+# This script helps installing/updating Microsoft's C++ package manager (vcpkg).
+#
+# Pre-conditions:
+# - $VCPKG_ROOT must point to the location where the vcpkg git repo will be placed.
+# - `git` must be installed in order to handle vcpkg's git repo.
+# - `curl` and `jq` must be available if --version is not explicitly set.
+#
+# The following switches are available:
+# -v: Print major commands being executed.
+# -vv: Print major commands being executed and their output.
+# --bin_dir: Directory where the vcpkg CLI program is going to be installed.
+#	Defaults to "$HOME/.local/bin".
+#	This location should be part of your $PATH if you intend to have `vcpkg` available globally.
+# --version: Select a specific version of vcpkg to be installed.
+# 	If no version is explicitly set, this script will query and use the latest one.
+#	All available version can be found here: https://github.com/microsoft/vcpkg/tags
 
-source "$root_dir/etc/scripts/helper.sh"
-trap 'rm -rf "$TMPDIR/vcpkg"; [[ ${#DIRSTACK[@]} -gt 1 ]] && popd >/dev/null; trap_error' ERR
-trap 'rm -rf "$TMPDIR/vcpkg"' EXIT
+set -Eeuo pipefail
 
-silent=""
-tag=""
-url="https://github.com/microsoft/vcpkg.git"
+readonly TMP_LOG_FILE="$TMPDIR/${0##*/}.log"
+log () { printf '[%s] %s\n' "${0##*/}" "$*" >&2; }
+err () { printf '[%s] ERROR: %s\n' "${0##*/}" "$*" >&2; }
+
+# Wrapper to run commands while controlling log verbosity and output redirection.
+run () {
+	[[ $verbose -gt 0 ]] && printf "\t%s\n" "$*" >&2
+
+	local status=0
+	if [[ $verbose == 2 ]]; then
+		if [[ -v stdo && $stdo == 1 ]]; then
+			"$@" 2>"$TMP_LOG_FILE"
+		else
+			"$@" &>"$TMP_LOG_FILE"
+		fi
+		status=$?
+		sed 's/^/\t\t/' "$TMP_LOG_FILE"
+	else
+		if [[ -v stdo && $stdo == 1 ]]; then
+			"$@" 2>/dev/null
+		else
+			"$@" &>/dev/null
+		fi
+		status=$?
+	fi
+
+	return $status
+}
+
+
+cleanup () {
+	local err_code=$?
+    local trap_signal="$1"
+    [[ $trap_signal == "ERR" ]] && err "Command failed with exit code $err_code."
+
+	rm -rf "$TMP_LOG_FILE"
+	rm -rf "$TMPDIR/vcpkg"
+	while [ "$(dirs -p | wc -l)" -gt 1 ]; do
+		popd >/dev/null
+	done
+}
+trap 'cleanup ERR' ERR
+trap 'cleanup EXIT' EXIT
+
+readonly VCPKG_URL="https://github.com/microsoft/vcpkg.git"
+vcpkg_bin_dir="$HOME/.local/bin"
+vcpkg_version="";
+verbose=0
 while [[ $# -gt 0 ]]; do case $1 in
-	--silent)
-		silent="&>/dev/null"
+	-v)
+		verbose=1
 		shift;;
-	--tag)
-		tag="$2";
+	-vv)
+		verbose=2
+		shift;;
+	--bin_dir)
+		vcpkg_bin_dir="$2"
+		shift; shift;;
+	--version)
+		vcpkg_version="$2";
 		shift; shift;;
 	*)
 		shift;;
 esac; done
 
-clean_install () {
-	echo "-> Cloning vcpkg @$tag ..."
-	_run git clone --branch "$tag" "$url" "$TMPDIR/vcpkg"
+check_preconds () {
+	log "Checking pre-conditions ..."
 
-	echo "-> Bootstrapping vcpkg ..."
-	cd "$TMPDIR/vcpkg" && _run ./bootstrap-vcpkg.sh && cd - &>/dev/null
+	[[ -z "$VCPKG_ROOT" ]] &&
+		err "This script requires \$VCPKG_ROOT to be set upfront." &&
+		exit 1
 
-	echo "-> Installing vcpkg ..."
-	[ -d "$VCPKG_ROOT" ] && rm -rf "$VCPKG_ROOT"
-	mv "$TMPDIR/vcpkg" "$VCPKG_ROOT"
-	ln -fs "$VCPKG_ROOT/vcpkg" ~/.local/bin/vcpkg
+	if ! which -s git; then
+		err "\`git\` was not found but it's required by this script."
+		exit 1
+	fi
 
-	echo "-> Done!"
+	if [[ -z "$vcpkg_version" ]] && ! which -s curl; then
+		err "When --version is not specified \`curl\` is required to fetch vcpkg release metadata."
+		exit 1
+	fi
+
+	if [[ -z "$vcpkg_version" ]] && ! which -s jq; then
+		err "When --version is not specified \`jq\` is required to parse vcpkg release metadata."
+		exit 1
+	fi
+
+	if [[ ! -d "$vcpkg_bin_dir" ]]; then
+		err "\$vcpkg_bin_dir is referencing a location that's not a directory: '$vcpkg_bin_dir'."
+		exit 1
+	fi
 }
 
-update_preexisting () {
-	echo "-> Updating preexisting setup @$tag ..."
-	pushd "$VCPKG_ROOT" >/dev/null
-	_run git checkout master
-	_run git pull --prune
-	_run git checkout "$tag"
+install_vcpkg () {
+	log "Cloning version @$vcpkg_version..."
+	run git clone --branch "$vcpkg_version" "$VCPKG_URL" "$TMPDIR/vcpkg"
 
-	echo "-> Bootstrapping and installing vcpkg ..."
-	_run ./bootstrap-vcpkg.sh
-	ln -fs "$VCPKG_ROOT/vcpkg" ~/.local/bin/vcpkg
+	log "Bootstrapping vcpkg ..."
+	run pushd "$TMPDIR/vcpkg"
+	run ./bootstrap-vcpkg.sh
+	run popd
 
-	popd >/dev/null
-	echo "-> Done!"
+	log "Installing vcpkg ..."
+	[[ -d $VCPKG_ROOT ]] && run rm -rf "$VCPKG_ROOT"
+	run mv "$TMPDIR/vcpkg" "$VCPKG_ROOT"
+	run ln -fs "$VCPKG_ROOT/vcpkg" "$vcpkg_bin_dir/vcpkg"
+
+	log "Done!"
 }
 
-if [ -z "$tag" ]; then
-	echo "-> Querying vcpkg latest available version ..."
-	tag=$(
-		curl --connect-timeout 13 --fail --location --retry 5 --retry-delay 2 \
-			--show-error --silent \
+update_vcpkg () {
+	log "Updating preexisting setup ..."
+	run pushd "$VCPKG_ROOT"
+	run git checkout master
+	run git pull --prune
+	run git checkout "$vcpkg_version"
+
+	log "Bootstrapping and installing vcpkg ..."
+	run ./bootstrap-vcpkg.sh
+	run ln -fs "$VCPKG_ROOT/vcpkg" "$vcpkg_bin_dir/vcpkg"
+
+	run popd
+	log "Done!"
+}
+
+
+check_preconds
+
+if [[ -z "$vcpkg_version" ]]; then
+	log "Querying vcpkg latest available version ..."
+	vcpkg_version=$(
+		stdo=1 run curl --fail --location --show-error --silent \
+			--connect-timeout 13 --retry 5 --retry-delay 2 \
 			--header "Accept:application/vnd.github.v3.raw" \
 			"https://api.github.com/repos/microsoft/vcpkg/releases/latest" |
-		jq --raw-output '.tag_name'
+		stdo=1 run jq --raw-output '.tag_name'
 	)
+	log "The latest available version is $vcpkg_version"
 fi
 
-if [ -d "$VCPKG_ROOT" ]; then
-	update_preexisting
+if [[
+	-d $VCPKG_ROOT &&
+	$(git rev-parse --is-inside-work-tree) == "true"
+]]; then
+	update_vcpkg
 else
-	clean_install
+	install_vcpkg
 fi
