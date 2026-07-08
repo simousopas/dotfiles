@@ -114,9 +114,9 @@ ismc completion bash >"$HOME/.bash_completion.d/iscm.sh"
 ismc completion fish >"$XDG_CONFIG_HOME/fish/completions/ismc.fish"
 
 
-log_info "\t >>> Installing VSCode plugins ..."
-source "$root_dir/etc/scripts/install-vscode-plugins.sh" \
-	--silent --plugins-list "etc/vscode.plugins.txt"
+log_info "\t >>> Installing VSCode extensions ..."
+source "$root_dir/etc/scripts/install-vscode-extensions.sh" \
+	--extensions-list "etc/vscode.extensions.txt"
 
 
 log_info "\t >>> Ignoring Focusrite Scarlett Solo automount"
