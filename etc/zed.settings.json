@@ -5,7 +5,7 @@
 			"comment": "To see all default settings run the `open default settings` command"
 		}
 	],
-	"auto_install_extensions": ${zed_plugins},
+	"auto_install_extensions": ${zed_extensions},
 	"auto_update": false,
 	"buffer_font_family": "JetBrainsMonoNL Nerd Font Mono",
 	"buffer_font_size": ${font_size},

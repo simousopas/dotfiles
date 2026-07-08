@@ -43,7 +43,7 @@ applicable to previous versions too.
   - Update specific package: `pip3 install --user --upgrade <package>`
 - Open updated apps and make sure they're working as intended.
 - Update Brave's Content Filters list.
-- Update VSCode's plugins.
+- Update VSCode's extensions.
 - Review the settings of iCloud, Login Items, Siri Suggestions, Spotlight and
   Notifications.
 

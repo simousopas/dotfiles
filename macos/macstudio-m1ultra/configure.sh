@@ -116,14 +116,14 @@ cp "$macmousefix_file" "$app_support_folder/com.nuebling.mac-mouse-fix/config.pl
 # ===============================================================================
 
 if [ -n "$HOMEBREW_PREFIX" ]; then
-	zed_plugins="$(cat etc/zed.plugins.json)"
+	zed_extensions="$(cat etc/zed.extensions.json)"
 	export bun_cache_dir="$XDG_CACHE_HOME/bun/cache-install"
 	export bun_global_bindir="$XDG_CACHE_HOME/bun/bin"
 	export bun_global_dir="$XDG_CACHE_HOME/bun/lib"
 	export font_size="11"
 	export terminal_window_height="35"
 	export terminal_window_width="150"
-	export zed_plugins
+	export zed_extensions
 	rm -rf "$HOME/.gnupg/gpg-agent.conf"
 	envsubst <"$root_dir/etc/macos/.bunfig.toml" >"$XDG_CONFIG_HOME/.bunfig.toml"
 	envsubst <"$root_dir/etc/macos/ghostty.conf" >"$XDG_CONFIG_HOME/ghostty/config"
