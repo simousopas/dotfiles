@@ -22,6 +22,11 @@
 set -Eeuo pipefail
 
 readonly TMP_LOG_FILE="$TMPDIR/${0##*/}.log"
+readonly VCPKG_URL="https://github.com/microsoft/vcpkg.git"
+vcpkg_bin_dir="$HOME/.local/bin"
+vcpkg_version=""
+verbose=0
+
 log () { printf '[%s] %s\n' "${0##*/}" "$*" >&2; }
 err () { printf '[%s] ERROR: %s\n' "${0##*/}" "$*" >&2; }
 
@@ -50,7 +55,6 @@ run () {
 	return $status
 }
 
-
 cleanup () {
 	local err_code=$?
     local trap_signal="$1"
@@ -62,29 +66,25 @@ cleanup () {
 		popd >/dev/null
 	done
 }
-trap 'cleanup ERR' ERR
-trap 'cleanup EXIT' EXIT
 
-readonly VCPKG_URL="https://github.com/microsoft/vcpkg.git"
-vcpkg_bin_dir="$HOME/.local/bin"
-vcpkg_version="";
-verbose=0
-while [[ $# -gt 0 ]]; do case $1 in
-	-v)
-		verbose=1
-		shift;;
-	-vv)
-		verbose=2
-		shift;;
-	--bin_dir)
-		vcpkg_bin_dir="$2"
-		shift; shift;;
-	--version)
-		vcpkg_version="$2";
-		shift; shift;;
-	*)
-		shift;;
+parse_input_args () {
+	while [[ $# -gt 0 ]]; do case $1 in
+		-v)
+			verbose=1
+			shift;;
+		-vv)
+			verbose=2
+			shift;;
+		--bin_dir)
+			vcpkg_bin_dir="$2"
+			shift; shift;;
+		--version)
+			vcpkg_version="$2";
+			shift; shift;;
+		*)
+			shift;;
 esac; done
+}
 
 check_preconds () {
 	log "Checking pre-conditions ..."
@@ -147,6 +147,9 @@ update_vcpkg () {
 }
 
 
+trap 'cleanup ERR' ERR
+trap 'cleanup EXIT' EXIT
+parse_input_args "$@"
 check_preconds
 
 if [[ -z "$vcpkg_version" ]]; then

@@ -16,7 +16,13 @@
 
 set -Eeuo pipefail
 
+readonly VSC_DATA_DIR="$XDG_CACHE_HOME/code/data/"
+readonly VSC_EXTENSIONS_DIR="$XDG_CACHE_HOME/code/extensions/"
+readonly REMAINING_EXTENSIONS_LIST="$TMPDIR/vscode.extensions.txt"
 readonly TMP_LOG_FILE="$TMPDIR/${0##*/}.log"
+extensions_list=""
+verbose=0
+
 log () { printf '[%s] %s\n' "${0##*/}" "$*" >&2; }
 err () { printf '[%s] ERROR: %s\n' "${0##*/}" "$*" >&2; }
 
@@ -45,13 +51,6 @@ run () {
 	return $status
 }
 
-
-readonly VSC_DATA_DIR="$XDG_CACHE_HOME/code/data/"
-readonly VSC_EXTENSIONS_DIR="$XDG_CACHE_HOME/code/extensions/"
-readonly REMAINING_EXTENSIONS_LIST="$TMPDIR/vscode.extensions.txt"
-extensions_list=""
-verbose=0
-
 cleanup () {
 	local err_code=$?
     local trap_signal="$1"
@@ -62,22 +61,22 @@ cleanup () {
 		popd >/dev/null
 	done
 }
-trap 'cleanup ERR' ERR
-trap 'cleanup EXIT' EXIT
 
-while [[ $# -gt 0 ]]; do case $1 in
-	-v)
-		verbose=1
-		shift;;
-	-vv)
-		verbose=2
-		shift;;
-	--extensions-list)
-		extensions_list="$2";
-		shift;;
-	*)
-		shift;;
-esac; done
+parse_input_args () {
+	while [[ $# -gt 0 ]]; do case $1 in
+		-v)
+			verbose=1
+			shift;;
+		-vv)
+			verbose=2
+			shift;;
+		--extensions-list)
+			extensions_list="$2";
+			shift;;
+		*)
+			shift;;
+	esac; done
+}
 
 check_preconds () {
 	log "Checking pre-conditions ..."
@@ -92,6 +91,11 @@ check_preconds () {
 		exit 1
 	fi
 }
+
+
+trap 'cleanup ERR' ERR
+trap 'cleanup EXIT' EXIT
+parse_input_args "$@"
 check_preconds
 
 if [ ! -f "$REMAINING_EXTENSIONS_LIST" ]; then
