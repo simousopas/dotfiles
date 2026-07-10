@@ -22,7 +22,7 @@
 set -Eeuo pipefail
 
 readonly TMP_LOG_FILE="$TMPDIR/${0##*/}.log"
-readonly VCPKG_URL="https://github.com/microsoft/vcpkg.git"
+readonly VCPKG_REPO="microsoft/vcpkg"
 vcpkg_bin_dir="$HOME/.local/bin"
 vcpkg_version=""
 verbose=0
@@ -116,7 +116,7 @@ check_preconds () {
 
 install_vcpkg () {
 	log "Cloning version @$vcpkg_version..."
-	run git clone --branch "$vcpkg_version" "$VCPKG_URL" "$TMPDIR/vcpkg"
+	run git clone --branch "$vcpkg_version" "https://github.com/$VCPKG_REPO" "$TMPDIR/vcpkg"
 
 	log "Bootstrapping vcpkg ..."
 	run pushd "$TMPDIR/vcpkg"
@@ -158,16 +158,13 @@ if [[ -z "$vcpkg_version" ]]; then
 		stdo=1 run curl --fail --location --show-error --silent \
 			--connect-timeout 13 --retry 5 --retry-delay 2 \
 			--header "Accept:application/vnd.github.v3.raw" \
-			"https://api.github.com/repos/microsoft/vcpkg/releases/latest" |
+			"https://api.github.com/repos/$VCPKG_REPO/releases/latest" |
 		stdo=1 run jq --raw-output '.tag_name'
 	)
 	log "The latest available version is $vcpkg_version"
 fi
 
-if [[
-	-d $VCPKG_ROOT &&
-	$(git rev-parse --is-inside-work-tree) == "true"
-]]; then
+if [[ -d $VCPKG_ROOT && $(git rev-parse --is-inside-work-tree) == "true" ]]; then
 	update_vcpkg
 else
 	install_vcpkg

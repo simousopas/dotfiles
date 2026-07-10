@@ -57,9 +57,6 @@ cleanup () {
     [[ $trap_signal == "ERR" ]] && err "Command failed with exit code $err_code."
 
 	rm -rf "$TMP_LOG_FILE"
-	while [ "$(dirs -p | wc -l)" -gt 1 ]; do
-		popd >/dev/null
-	done
 }
 
 parse_input_args () {
@@ -121,3 +118,4 @@ do
 done <<<"$(cat "$REMAINING_EXTENSIONS_LIST")"
 
 rm -rf "$REMAINING_EXTENSIONS_LIST"
+log "Done!"

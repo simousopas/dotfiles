@@ -17,7 +17,7 @@ applicable to previous versions too.
 
 ## Updates
 - Update dotfiles `./configure.sh`
-- Update hosts `bash etc/scripts/install-hosts.sh [--force-hostname <host>]`
+- Update hosts `bash etc/scripts/install-hosts.sh`
 - Update iSMC `bash etc/macos/scripts/install-ismc.sh [--version <ver>]`
 - Update MongoDB Shell `bash etc/scripts/install-mongo-utils.sh shell [--version <ver>]`
 - Update MongoDB Tools `bash etc/scripts/install-mongo-utils.sh tools [--version <ver>]`
