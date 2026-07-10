@@ -95,7 +95,8 @@ defaults write com.DanPristupov.Fork updateSubmodulesOnCheckout 0
 
 
 log_info "\t >>> Setting up the hosts file ..."
-/bin/bash "$root_dir/etc/scripts/install-hosts.sh"
+/bin/bash "$root_dir/etc/scripts/install-hosts.sh" \
+	--with-sb-hosts-category fakenews-gambling-porn
 
 
 log_info "\t >>> Installing pip packages ..."
