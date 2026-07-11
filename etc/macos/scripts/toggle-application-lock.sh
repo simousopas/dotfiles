@@ -5,6 +5,7 @@
 # README
 # This script automatically toggles read-only permissions for a set of apps
 # to prevent them being updated automatically by their own update systems.
+# Consecutive runs of this script will toggle those permissions back and forth.
 
 set -Eeuo pipefail
 
@@ -83,7 +84,7 @@ toggle_app_lock () {
 		local app_path="/Applications/${app}.app"
 		[[ ! -d $app_path ]] && continue;
 
-		local app_flags="$(stdo=1 run ls -ldO "$app_path")"
+		local app_flags="$(stdo=1 run stat -f '%Sf' "$app_path")"
 
 		if  echo "$app_flags" | run grep -q -E "schg|uchg"; then
 			log "Unlocking $app ..."
