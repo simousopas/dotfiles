@@ -2,7 +2,7 @@
 # shellcheck source-path=SCRIPTDIR
 
 # README
-# This script helps installing/updating Microsoft's C++ package manager (vcpkg).
+# This script installs/updates Microsoft's C++ package manager (vcpkg).
 #
 # Pre-conditions:
 # - $VCPKG_ROOT must point to the location where the vcpkg git repo will be placed.
@@ -12,7 +12,7 @@
 # The following switches are available:
 # -v: Print major commands being executed.
 # -vv: Print major commands being executed and their output.
-# --bin_dir: Directory where the vcpkg CLI program is going to be installed.
+# --bin-dir: Directory where the vcpkg CLI program is going to be installed.
 #	Defaults to "$HOME/.local/bin".
 #	This location should be part of your $PATH if you intend to have `vcpkg` available globally.
 # --version: Select a specific version of vcpkg to be installed.
@@ -75,7 +75,7 @@ parse_input_args () {
 		-vv)
 			verbose=2
 			shift;;
-		--bin_dir)
+		--bin-dir)
 			vcpkg_bin_dir="$2"
 			shift; shift;;
 		--version)
@@ -164,7 +164,7 @@ if [[ -z "$vcpkg_version" ]]; then
 	log "The latest available version is $vcpkg_version"
 fi
 
-if [[ -d $VCPKG_ROOT && $(git rev-parse --is-inside-work-tree) == "true" ]]; then
+if [[ -d $VCPKG_ROOT && $(git -C "$VCPKG_ROOT" rev-parse --is-inside-work-tree) == "true" ]]; then
 	update_vcpkg
 else
 	install_vcpkg

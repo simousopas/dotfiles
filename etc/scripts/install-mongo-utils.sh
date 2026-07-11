@@ -115,18 +115,8 @@ check_preconds () {
 		exit 1
 	fi
 
-	if [[ -n $mongodb_shell_version ]] && ! which -s unzip; then
-		err "When --shell-version is set, \`unzip\` is required to extract its package."
-		exit 1
-	fi
-
 	if [[ -n $mongodb_tools_version ]] && ! which -s curl; then
 		err "When --tools-version is set, \`curl\` is required to download its package."
-		exit 1
-	fi
-
-	if [[ -n $mongodb_tools_version ]] && ! which -s unzip; then
-		err "When --tools-version is set, \`unzip\` is required to extract its package."
 		exit 1
 	fi
 
