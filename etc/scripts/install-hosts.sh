@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # shellcheck source-path=SCRIPTDIR
-# shellcheck disable=SC2155
 
 # README
 # This script automatically sets up /private/etc/host

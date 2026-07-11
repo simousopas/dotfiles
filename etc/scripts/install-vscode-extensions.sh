@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # shellcheck source-path=SCRIPTDIR
-# shellcheck disable=SC2155
 
 # README
 # This script automatically installs a user-defined list of VS Code extensions.
