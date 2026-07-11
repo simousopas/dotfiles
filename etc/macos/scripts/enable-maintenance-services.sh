@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2155
 
-#README
-#
+# README
+# Enables a fundamental set of system services used to run updates in a macOS system.
+# Once finished with the maintenance, run the appropriate disable-service-*.sh script.
 
 set -Eeuo pipefail
 
