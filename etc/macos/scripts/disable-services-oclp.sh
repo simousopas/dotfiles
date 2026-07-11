@@ -56,7 +56,7 @@ parse_input_args () {
 			shift;;
 		*)
 			shift;;
-esac; done
+	esac; done
 }
 
 disable_user_services () {
@@ -281,7 +281,7 @@ disable_system_services () {
 	)
 
 	log "Disabling system services ..."
-	macos_major_version="$(sw_vers -productVersion | grep -o '^\d*')"
+	local macos_major_version="$(sw_vers -productVersion | grep -o '^\d*')"
 	if [ $((macos_major_version)) -ne 26 ]; then
 		# NOTE: Disabling the syspolicy service will save some RAM and specially CPU
 		# time during login and app launch. However files like PDFs and pictures are
