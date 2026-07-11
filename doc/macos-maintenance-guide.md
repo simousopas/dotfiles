@@ -24,7 +24,7 @@ applicable to previous versions too.
 - Update vcpkg `bash etc/scripts/install-vcpkg.sh [--tag <tag>]`
 - Update Homebrew's apps.
   - Quit all apps.
-  - Unlock apps: `bash etc/macos/scripts/toggle-application-lock.sh --unlock`
+  - Unlock apps: `bash etc/macos/scripts/toggle-application-lock.sh`
   - Update Homebrew environment: `brew update`
   - Update formulae with special needs:
     `brew install --ignore-dependencies jdtls maven zls`

@@ -2,62 +2,103 @@
 # shellcheck source-path=SCRIPTDIR
 # shellcheck disable=SC2155
 
-set -e
-mydir="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null && pwd)"
-root_dir="$(cd "$mydir/../../../" && pwd)"
+# README
+# This script automatically toggles read-only permissions for a set of apps
+# to prevent them being updated automatically by their own update systems.
 
-source "$root_dir/etc/scripts/helper.sh"
-trap trap_error ERR
+set -Eeuo pipefail
 
-action="lock"
-while [[ $# -gt 0 ]]; do case $1 in
-	--lock)
-		action="lock";
-		shift;;
-	--unlock)
-		action="unlock";
-		shift;;
-	*)
-		shift;;
-esac; done
+readonly TMP_LOG_FILE="$TMPDIR/${0##*/}.log"
+verbose=0
 
-apps_list=(
-	"ares"
-	"Azahar"
-	"Brave Browser"
-	"Bruno"
-	"Docker"
-	"Orion"
-	"Google Chrome"
-	"melonDS"
-	"OBS"
-	"Signal"
-	"SkyEmu"
-	"Spotify"
-	"Visual Studio Code"
-	"WhatsApp"
-	"Zed"
-	"Zoom"
-)
+log () { printf '[%s] %s\n' "${0##*/}" "$*" >&2; }
+err () { printf '[%s] ERROR: %s\n' "${0##*/}" "$*" >&2; }
 
-[ "$action" != "lock" ] && [ "$action" != "unlock" ] &&
-	echo "Error: No specific action was select: --lock/--unlock." &&
-	exit 1
+# Wrapper to run commands while controlling log verbosity and output redirection.
+run () {
+	[[ $verbose -gt 0 ]] && printf "\t%s\n" "$*" >&2
 
-[ "$action" == "lock" ] &&
-	sflags="schange" && uflags="uchange" &&
-	echo "-> Locking applications ..."
-[ "$action" == "unlock" ] &&
-	sflags="noschange" && uflags="nouchange" &&
-	echo "-> Unlocking applications ..."
-
-for item in "${apps_list[@]}"; do
-	app="/Applications/${item}.app"
-	if [ -d "$app" ]; then
-		echo -e "\t-> ${action}ing $item ..."
-		sudo chflags -R "$sflags" "/Applications/${item}.app"
-		chflags -R "$uflags" "/Applications/${item}.app"
+	local status=0
+	if [[ $verbose == 2 ]]; then
+		if [[ -v stdo && $stdo == 1 ]]; then
+			"$@" 2>"$TMP_LOG_FILE"
+		else
+			"$@" &>"$TMP_LOG_FILE"
+		fi
+		status=$?
+		sed 's/^/\t\t/' "$TMP_LOG_FILE"
+	else
+		if [[ -v stdo && $stdo == 1 ]]; then
+			"$@" 2>/dev/null
+		else
+			"$@" &>/dev/null
+		fi
+		status=$?
 	fi
-done
 
-echo "-> All done!"
+	return $status
+}
+
+cleanup () {
+	local err_code=$?
+	local trap_signal="$1"
+	[[ $trap_signal == "ERR" ]] && err "Command failed with exit code $err_code."
+	rm -rf "$TMP_LOG_FILE"
+}
+
+parse_input_args () {
+	while [[ $# -gt 0 ]]; do case $1 in
+		-v)
+			verbose=1
+			shift;;
+		-vv)
+			verbose=2
+			shift;;
+		*)
+			shift;;
+	esac; done
+}
+
+toggle_app_lock () {
+	local apps_list=(
+		"ares"
+		"Azahar"
+		"Brave Browser"
+		"Bruno"
+		"Docker"
+		"Orion"
+		"Google Chrome"
+		"melonDS"
+		"OBS"
+		"Signal"
+		"SkyEmu"
+		"Spotify"
+		"Visual Studio Code"
+		"WhatsApp"
+		"Zed"
+		"Zoom"
+	)
+
+	for app in "${apps_list[@]}"; do
+		local app_path="/Applications/${app}.app"
+		[[ ! -d $app_path ]] && continue;
+
+		local app_flags="$(stdo=1 run ls -ldO "$app_path")"
+
+		if  echo "$app_flags" | run grep -q -E "schg|uchg"; then
+			log "Unlocking $app ..."
+			run sudo chflags -R noschg "$app_path"
+			run chflags -R nouchg "$app_path"
+		else
+			log "Locking $app ..."
+			run sudo chflags -R schg "$app_path"
+			run chflags -R uchg "$app_path"
+		fi
+	done
+}
+
+trap 'cleanup EXIT' EXIT
+trap 'cleanup ERR' ERR
+parse_input_args "$@"
+toggle_app_lock
+log "Done!"

@@ -83,7 +83,7 @@ parse_input_args () {
 			shift; shift;;
 		*)
 			shift;;
-esac; done
+	esac; done
 }
 
 check_preconds () {
