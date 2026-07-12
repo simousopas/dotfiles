@@ -40,8 +40,8 @@ run () {
 
 cleanup () {
 	local err_code=$?
-    local trap_signal="$1"
-    [[ $trap_signal == "ERR" ]] && err "Command failed with exit code $err_code."
+	local trap_signal="$1"
+	[[ $trap_signal == "ERR" ]] && err "Command failed with exit code $err_code."
 	rm -rf "$TMP_LOG_FILE"
 }
 

@@ -53,6 +53,6 @@ applicable to previous versions too.
   - `csrutil status`.
   - [Disable SIP](https://developer.apple.com/documentation/security/disabling-and-enabling-system-integrity-protection).
 - Disable macOS services `bash etc/macos/scripts/disable-services.sh`
-- Save any configuration changes: `bash etc/macos/scripts/export-defaults.sh`
+- Save any configuration changes: `bash etc/macos/scripts/export-apps-settings.sh`
 - Open _Ghostty_ and purge all caches: `purge all` 
 - Reboot.
