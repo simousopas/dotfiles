@@ -112,7 +112,7 @@ install_ismc () {
 	fi
 
 	log "Downloading iSMC to $TMPDIR/iSMC/iSMC.tar.gz ..."
-	mkdir -p "$ISMC_DOWNLOAD_DIR"
+	run mkdir -p "$ISMC_DOWNLOAD_DIR"
 	run curl --fail --location --show-error --silent \
 		--connect-timeout 13  --retry 5 --retry-delay 2 \
 		--output "$ISMC_DOWNLOAD_DIR/iSMC.tar.gz" \
