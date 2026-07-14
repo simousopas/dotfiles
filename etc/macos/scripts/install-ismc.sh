@@ -6,7 +6,7 @@
 # battery, power, voltage and current of Apple Silicon macs.
 #
 # Pre-conditions
-# - `curl` must be installed to install iSMC.
+# - `curl` must be available to download iSMC.
 #
 # The following switches are available:
 # -v: Print major commands being executed.

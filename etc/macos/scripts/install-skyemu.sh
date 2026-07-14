@@ -1,67 +1,144 @@
 #!/usr/bin/env bash
 # shellcheck source-path=SCRIPTDIR
-# shellcheck disable=SC2155
 
-set -e
-mydir="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null && pwd)"
-root_dir="$(cd "$mydir/../../../" && pwd)"
+# README
+# This script installs/uninstalls the SkyEmu emulator.
+#
+# The following switches are available:
+# -v: Print major commands being executed.
+# -vv: Print major commands being executed and their output.
+# --install-dir: Directory where the SkyEmu.app program is going to be installed.
+#	Defaults to "/Applications".
+# --uninstall: Uninstall the SkyEmu.app plus its cached files.
+# --version: Select a specific version of SkyEmu to be installed.
+# 	If no version is explicitly set or it's set to "latest", this script will
+# 	query and use the latest one. All available version can be found here:
+#	https://github.com/skylersaleh/SkyEmu/releases
 
-source "$root_dir/etc/scripts/helper.sh"
-trap trap_error ERR
+set -Eeuo pipefail
 
-trap_exit () {
-	rm -rf "${TMPDIR}${app_name}"
-}
-trap trap_exit EXIT
-
-app_name="SkyEmu"
-download_dir="${TMPDIR}${app_name}"
-install_dir="/Applications"
-uninstall="false"
+readonly SKYEMU_DOWNLOAD_DIR="$TMPDIR/skyemu"
+readonly SKYEMU_REPO="skylersaleh/SkyEmu"
+readonly TMP_LOG_FILE="$TMPDIR/${0##*/}.log"
+skyemu_install_dir="/Applications"
+uninstall=0
 version=""
-while [[ $# -gt 0 ]]; do case $1 in
-	--uninstall)
-		uninstall="true";
-		shift;;
-	--version)
-		version="$2";
-		shift; shift;;
-	*)
-		shift;;
-esac; done
+verbose=0
 
-if [ "$uninstall" = "true" ]; then
-	echo "-> Uninstalling $app_name ..."
-	rm -rf /Applications/${app_name}.app
-	rm -rf "$HOME/Library/Application Support/Sky/${app_name}"
-	echo "-> Finished."
-	exit 0
+log () { printf '[%s] %s\n' "${0##*/}" "$*" >&2; }
+err () { printf '[%s] ERROR: %s\n' "${0##*/}" "$*" >&2; }
+
+# Wrapper to run commands while controlling log verbosity and output redirection.
+run () {
+	[[ $verbose -gt 0 ]] && printf "\t%s\n" "$*" >&2
+
+	local status=0
+	if [[ $verbose == 2 ]]; then
+		if [[ -v stdo && $stdo == 1 ]]; then
+			"$@" 2>"$TMP_LOG_FILE"
+		else
+			"$@" &>"$TMP_LOG_FILE"
+		fi
+		status=$?
+		sed 's/^/\t\t/' "$TMP_LOG_FILE"
+	else
+		if [[ -v stdo && $stdo == 1 ]]; then
+			"$@" 2>/dev/null
+		else
+			"$@" &>/dev/null
+		fi
+		status=$?
+	fi
+
+	return $status
+}
+
+cleanup () {
+	local err_code=$?
+	local trap_signal="$1"
+	[[ $trap_signal == "ERR" ]] && err "Command failed with exit code $err_code."
+
+	run umount "/Volumes/SkyEmu" || true
+	run rm -rf "$SKYEMU_DOWNLOAD_DIR"
+	rm -rf "$TMP_LOG_FILE"
+}
+
+parse_input_args () {
+	while [[ $# -gt 0 ]]; do case $1 in
+		-v)
+			verbose=1
+			shift;;
+		-vv)
+			verbose=2
+			shift;;
+		--install-dir)
+			skyemu_install_dir="$2"
+			shift; shift;;
+		--uninstall)
+			uninstall=1
+			shift;;
+		--version)
+			version="$2";
+			shift; shift;;
+		*)
+			shift;;
+	esac; done
+}
+
+check_preconds () {
+	log "Checking pre-conditions ..."
+
+	if ! which -s curl; then
+		err "\`curl\` is required to download SkyEmu."
+		exit 1
+	fi
+
+	if [[ ! -d $skyemu_install_dir ]]; then
+		err "\$skyemu_install_dir is referencing a location that's not a directory: '$skyemu_install_dir'."
+		exit 1
+	fi
+}
+
+uninstall_skyemu () {
+	log "Uninstalling SkyEmu ..."
+	run rm -rf "/$skyemu_install_dir/SkyEmu.app"
+	run rm -rf "$HOME/Library/Application Support/Sky/SkyEmu"
+}
+
+install_skyemu () {
+	if [[ -z $version || $version == "latest" ]]; then
+		log "Querying SkyEmu's latest version ..."
+		version=$(
+			stdo=1 run curl --fail --location --show-error --silent \
+				--connect-timeout 13  --retry 5 --retry-delay 2 \
+				--header "Accept:application/vnd.github.v3.raw" \
+				"https://api.github.com/repos/${SKYEMU_REPO}/releases/latest" |
+			stdo=1 run jq --raw-output '.name'
+		)
+		version=${version#* }
+		log "The latest available version is $version"
+	fi
+
+	log "Downloading SkyEmu to $SKYEMU_DOWNLOAD_DIR/skyemu.dmg ..."
+	run mkdir -p "$SKYEMU_DOWNLOAD_DIR"
+	run curl --fail --location --show-error --silent \
+		--connect-timeout 13  --retry 5 --retry-delay 2 \
+		--output "$SKYEMU_DOWNLOAD_DIR/SkyEmu.dmg" \
+		"https://github.com/${SKYEMU_REPO}/releases/download/${version}/SkyEmu-${version}-macOS.dmg"
+
+	log "Installing SkyEmu at $skyemu_install_dir/SkyEmu.app ..."
+	run hdiutil attach "${SKYEMU_DOWNLOAD_DIR}/SkyEmu.dmg"
+	run rm -rf "$skyemu_install_dir/SkyEmu.app"
+	run cp -R "/Volumes/SkyEmu/SkyEmu.app" "$skyemu_install_dir/"
+}
+
+trap 'cleanup EXIT' EXIT
+trap 'cleanup ERR' ERR
+parse_input_args "$@"
+check_preconds
+if [[ $uninstall == 1 ]]; then
+	uninstall_skyemu
+else
+	install_skyemu
 fi
-
-if [ -z "$version" ]; then
-	echo "-> Querying ${app_name}'s latest available version ..."
-	version=$(
-		curl --connect-timeout 13 --fail --location --retry 5 --retry-delay 2 \
-			--show-error --silent \
-			--header "Accept:application/vnd.github.v3.raw" \
-			"https://api.github.com/repos/skylersaleh/${app_name}/releases/latest" |
-		jq --raw-output '.name'
-	)
-	version=${version#* }
-fi
-
-url="https://github.com/skylersaleh/${app_name}/releases/download/${version}/${app_name}-${version}-macOS.dmg"
-echo "-> Downloading $url ..."
-mkdir -p "$download_dir"
-curl --connect-timeout 13 --fail --location --progress-bar \
-	--retry 5 --retry-delay 2 --show-error \
-	--output "$download_dir/${app_name}.dmg" \
-	"$url"
-
-echo "-> Installing in $install_dir ..."
-hdiutil attach "${download_dir}/${app_name}.dmg" &>/dev/null
-rm -rf "${install_dir}/${app_name}.app"
-cp -R "/Volumes/${app_name}/${app_name}.app" "$install_dir/"
-umount "/Volumes/${app_name}"
-
-echo "-> Finished."
+log "Done!"

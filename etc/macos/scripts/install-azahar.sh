@@ -3,14 +3,14 @@
 # shellcheck disable=SC2155
 
 # README
-# This script install/uninstall the Azahar emulator.
+# This script installs/uninstalls the Azahar emulator.
 #
 # The following switches are available:
 # -v: Print major commands being executed.
 # -vv: Print major commands being executed and their output.
 # --install-dir: Directory where the Azahar.app program is going to be installed.
 #	Defaults to "/Applications".
-# --uninstall: Uninstall Azahar.app plus its cached files.
+# --uninstall: Uninstall the Azahar.app plus its cached files.
 # --version: Select a specific version of Azahar to be installed.
 # 	If no version is explicitly set or it's set to "latest", this script will
 # 	query and use the latest one. All available version can be found here:
@@ -60,8 +60,8 @@ cleanup () {
 	local trap_signal="$1"
 	[[ $trap_signal == "ERR" ]] && err "Command failed with exit code $err_code."
 
+	run rm -rf "$AZAHAR_DOWNLOAD_DIR"
 	rm -rf "$TMP_LOG_FILE"
-	rm -rf "$AZAHAR_DOWNLOAD_DIR"
 }
 
 parse_input_args () {
